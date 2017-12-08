@@ -8,9 +8,10 @@
 
     <appender name="Console-Appender" class="ch.qos.logback.core.ConsoleAppender">
         <layout>
-            <pattern>%d %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr(${PID:- }){magenta} --- [%15.15thread]
-                %clr(%-40.40logger{39}){cyan} : %m%n}
+            <!-- @formatter:off -->
+            <pattern>%d %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr(${PID:- }){magenta} --- [%15.15thread]%clr(%-40.40logger{39}){cyan} : %m%n}
             </pattern>
+            <!-- @formatter:on -->
         </layout>
     </appender>
     <appender name="RollingFile-Appender" class="ch.qos.logback.core.rolling.RollingFileAppender">
