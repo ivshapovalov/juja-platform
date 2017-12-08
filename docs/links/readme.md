@@ -51,7 +51,7 @@ This service store useful links for the Juja community
 
 * LKS-F2-URL
 ```
-    url - "/teams"
+    url - "/links"
     method - GET
 ```
 * LKS-F2-REQ
