@@ -1,0 +1,88 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.5.9.RELEASE")
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+allprojects {
+    apply plugin: 'java'
+    apply plugin: 'idea'
+    group 'juja-platform'
+}
+
+subprojects {
+    apply plugin: 'application'
+    apply plugin: 'org.springframework.boot'
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+
+    tasks.withType(JavaCompile) {
+        options.encoding = 'UTF-8'
+    }
+
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        compile 'org.springframework.boot:spring-boot-starter'
+        compile 'org.projectlombok:lombok:1.16.10'
+        testCompile 'org.springframework.boot:spring-boot-starter-test'
+    }
+
+    test.testLogging {
+        events "skipped", "failed"
+        exceptionFormat "SHORT"
+        showStandardStreams = true
+    }
+
+    test {
+        afterTest { desc, result ->
+            println "Executing test ${desc.name} [${desc.className}] with result: ${result.resultType}"
+        }
+    }
+}
+
+project(':links') {
+    jar {
+        baseName = "links"
+        version = "1.0"
+    }
+
+    mainClassName = "java.juja.microservices.links.Application"
+
+    dependencies {
+        compile 'org.springframework:spring-web'
+        compile 'org.apache.httpcomponents:httpclient:4.5.3'
+        compile 'javax.inject:javax.inject:1'
+    }
+}
+
+project(':links-slackbot') {
+    jar {
+        baseName = "links-slackbot"
+        version = "1.0"
+    }
+
+    mainClassName = "java.juja.microservices.links.slackbot.Application"
+
+    dependencies {
+        compile 'org.springframework:spring-web'
+        compile 'org.apache.httpcomponents:httpclient:4.5.3'
+        compile 'javax.inject:javax.inject:1'
+        compile 'io.springfox:springfox-swagger2:2.6.1'
+        compile 'io.springfox:springfox-swagger-ui:2.6.1'
+        compile 'me.ramswaroop.jbot:jbot:3.0.2'
+    }
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '3.3'
+}
