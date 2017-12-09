@@ -1,0 +1,2 @@
+rootProject.name = 'juja-platform'
+include 'links', 'links-slackbot'

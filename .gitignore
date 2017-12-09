@@ -1,0 +1,15 @@
+### Java
+*.class
+*.jar
+*.war
+*.ear
+
+### Idea
+.idea
+*.iml
+
+### Package Files
+logs/
+out/
+build/
+.gradle/
