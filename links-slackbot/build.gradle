@@ -46,6 +46,8 @@ test {
 dependencies {
     compile 'org.springframework.boot:spring-boot-starter'
     compile 'org.springframework:spring-web'
+    compile('org.springframework.boot:spring-boot-starter-aop')
+    compile group: 'org.aspectj', name: 'aspectjrt', version: '1.7.3'
 
     compile 'org.apache.httpcomponents:httpclient:4.5.3'
     compile 'javax.inject:javax.inject:1'
