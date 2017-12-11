@@ -27,12 +27,21 @@
         </encoder>
     </appender>
 
-    <logger name="juja.microservices" level="DEBUG" additivity="false">
-        <appender-ref ref="Console-Appender"/>
-        <appender-ref ref="RollingFile-Appender"/>
-    </logger>
-
     <root level="INFO" additivity="false">
         <appender-ref ref="Console-Appender"/>
     </root>
+
+    <springProfile name="production">
+        <logger name="juja.microservices" level="INFO" additivity="false">
+            <appender-ref ref="Console-Appender"/>
+            <appender-ref ref="RollingFile-Appender"/>
+        </logger>
+    </springProfile>
+
+    <springProfile name="dev,stage,test">
+        <logger name="juja.microservices" level="DEBUG" additivity="false">
+            <appender-ref ref="Console-Appender"/>
+            <appender-ref ref="RollingFile-Appender"/>
+        </logger>
+    </springProfile>
 </configuration>
