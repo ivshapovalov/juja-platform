@@ -5,6 +5,7 @@ import juja.microservices.links.model.SaveLinkRequest;
 import juja.microservices.links.service.LinksService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,21 +14,22 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.inject.Inject;
 import javax.validation.Valid;
 import java.util.Map;
 
 @RestController
 @RequestMapping(value = "/v1/links")
 public class LinksController {
-
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    @Inject
     private LinksService linksService;
-
-    @Inject
     private ApiErrorMessage errorMessage;
+
+    @Autowired
+    public LinksController(LinksService linksService, ApiErrorMessage errorMessage) {
+        this.linksService = linksService;
+        this.errorMessage = errorMessage;
+    }
 
     @PostMapping(consumes = "application/json", produces = "application/json")
     public ResponseEntity<?> saveLink(@Valid @RequestBody SaveLinkRequest request) {

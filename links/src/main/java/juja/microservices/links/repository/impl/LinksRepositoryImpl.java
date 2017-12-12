@@ -29,8 +29,6 @@ public class LinksRepositoryImpl implements LinksRepository {
 
     @Override
     public Map<String, String> saveLink(SaveLinkRequest request) {
-        logger.debug("Going to save '{}'", request);
-
         String URL = request.getURL();
         String id = getLinkId(URL);
 
