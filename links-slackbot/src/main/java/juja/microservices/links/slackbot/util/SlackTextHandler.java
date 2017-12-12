@@ -2,8 +2,8 @@ package juja.microservices.links.slackbot.util;
 
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -13,29 +13,19 @@ import java.util.regex.Pattern;
 @Slf4j
 public class SlackTextHandler {
 
-    public static Set<String> getURLsFromText(String text) {
-        Set<String> result = new HashSet<>();
+    public List<String> getURLsFromText(String text) {
+        List<String> result = new ArrayList<>();
 
         log.debug("Searching for URL links...");
-        Pattern pattern = Pattern.compile(
-                "\\b(((ht|f)tp(s?)\\:\\/\\/|~\\/|\\/)|www.)" +
-                        "(\\w+:\\w+@)?(([-\\w]+\\.)+(com|org|net|gov" +
-                        "|mil|biz|info|mobi|name|aero|jobs|museum" +
-                        "|travel|[a-z]{2}))(:[\\d]{1,5})?" +
-                        "(((\\/([-\\w~!$+|.,=]|%[a-f\\d]{2})+)+|\\/)+|\\?|#)?" +
-                        "((\\?([-\\w~!$+|.,*:]|%[a-f\\d{2}])+=?" +
-                        "([-\\w~!$+|.,*:=]|%[a-f\\d]{2})*)" +
-                        "(&(?:[-\\w~!$+|.,*:]|%[a-f\\d{2}])+=?" +
-                        "([-\\w~!$+|.,*:=]|%[a-f\\d]{2})*)*)*" +
-                        "(#([-\\w~!$+|.,*:=]|%[a-f\\d]{2})*)?\\b");
-
-        Matcher matcher = pattern.matcher(text);
+        Pattern p = Pattern.compile("<(ht|f)tp(s?)://.*?([>|])");
+        Matcher matcher = p.matcher(text);
         while (matcher.find()) {
-            result.add(matcher.group());
+            String found = matcher.group().subSequence(1, matcher.group().length() - 1).toString();
+            log.debug("...found: [{}]", found);
+            result.add(found);
         }
         log.debug("URL links found: [{}]", result.size());
 
         return result;
     }
 }
-

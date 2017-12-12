@@ -1,43 +1,46 @@
 package juja.microservices.links.slackbot.util;
 
+import org.hamcrest.collection.IsIterableContainingInAnyOrder;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
-import static juja.microservices.links.slackbot.util.SlackTextHandler.getURLsFromText;
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertThat;
 
 /**
  * @author Ben Novikov
  */
-@RunWith(SpringRunner.class)
-@SpringBootTest
 public class SlackTextHandlerTest {
-    @Test()
+    private final SlackTextHandler slackTextHandler = new SlackTextHandler();
+
+    @Test
     public void getURLsFromText_getSet_returnsExpectedSet() {
         String text =
-                "Привет, вот ссылка http://mail.ru/page?parameter=value&also=another " +
-                "Привет, вот ссылка: mail.ru/page?parameter=value&also=another " +
-                "Привет, вот ссылка https://mail.ru Привет, вот ссылка <https://mail.ru> " +
-                "Привет, вот ссылка mail.ru Привет, вот ссылка <http://mail.ru|mail.ru> " +
-                "Привет, вот ссылка mail@mail.ru Привет, вот ссылка <mailto:mail.mail@mail.ru|mail@mail.ru> " +
-                "Привет, вот ссылка ftp://ivan.mail.ru Привет, вот ссылка <ftp://name:pass@warehouse.com>";
-        Set<String> expectedSet = new HashSet<>(Arrays.asList(
-                "http://mail.ru/page?parameter=value&also=another",
+                "Ссылка <> <http://google.com?parameter=value&also=another|google.com> " +
+                "Ссылка <1> http://google.com " +
+                "Ссылка <2 <yandex.ru/page?parameter=value&also=another> " +
+                "Ссылка 3> https://google.info " +
+                "Ссылка 4 <<https://mail.ru> " +
+                "Ссылка 5 <<> google.ya " +
+                "Ссылка 6 <http://yahoo.us|yahoo.us> " +
+                "Ссылка 7 <mail@microsoft.com " +
+                "Ссылка 8 <mailto:mail.mail@post.by|mail@post.by> " +
+                "Ссылка 9 ftp://ya.google.au> " +
+                "Ссылка 9 <ftp://ya.google.mail.ya.au> " +
+                "Ссылка 10 <ftp://name:pass@warehouse.com> " ;
+        List<String> expectedList = new ArrayList<>(Arrays.asList(
+                "http://google.com?parameter=value&also=another",
                 "https://mail.ru",
-                "http://mail.ru",
-                "ftp://ivan.mail.ru",
+                "http://yahoo.us",
+                "ftp://ya.google.mail.ya.au",
                 "ftp://name:pass@warehouse.com"));
 
-        Set<String> actualSet = getURLsFromText(text);
+        List<String> actualList = slackTextHandler.getURLsFromText(text);
 
-        assertNotNull(actualSet);
-        assertEquals("Actual Set should be equal to expected", expectedSet, actualSet);
+        assertNotNull(actualList);
+        assertThat(actualList, IsIterableContainingInAnyOrder.containsInAnyOrder(expectedList.toArray()));
     }
 }
