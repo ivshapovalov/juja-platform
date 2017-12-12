@@ -1,7 +1,6 @@
 package juja.microservices.links.controller;
 
 import juja.microservices.links.exceptions.ApiErrorMessage;
-import juja.microservices.links.model.Link;
 import juja.microservices.links.model.SaveLinkRequest;
 import juja.microservices.links.service.LinksService;
 import org.slf4j.Logger;
@@ -15,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.inject.Inject;
+import javax.validation.Valid;
+import java.util.Map;
 
 @RestController
 @RequestMapping(value = "/v1/links")
@@ -29,16 +30,16 @@ public class LinksController {
     private ApiErrorMessage errorMessage;
 
     @PostMapping(consumes = "application/json", produces = "application/json")
-    public ResponseEntity<?> saveLink(@RequestBody SaveLinkRequest request) {
+    public ResponseEntity<?> saveLink(@Valid @RequestBody SaveLinkRequest request) {
         logger.info("Received saveLink request: '{}'", request);
-        Link link = linksService.saveLink(request);
+        Map<String, String> result = linksService.saveLink(request);
 
-        if (link.getId().isEmpty()) {
+        if (result.get("id").isEmpty()) {
             errorMessage.setErrorCode(500);
             errorMessage.setExceptionMessage(String.format("Failed to process '%s'", request.toString()));
             return new ResponseEntity<>(errorMessage, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        return ResponseEntity.ok(link);
+        return ResponseEntity.ok(result);
     }
 
     @GetMapping(produces = "application/json")

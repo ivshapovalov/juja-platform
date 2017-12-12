@@ -7,6 +7,7 @@ import juja.microservices.links.service.LinksService;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
+import java.util.Map;
 import java.util.Set;
 
 
@@ -16,7 +17,7 @@ public class LinksServiceImpl implements LinksService {
     private LinksRepository linksRepository;
 
     @Override
-    public Link saveLink(SaveLinkRequest request) {
+    public Map<String, String> saveLink(SaveLinkRequest request) {
         return linksRepository.saveLink(request);
     }
 

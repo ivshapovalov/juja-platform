@@ -10,6 +10,8 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Repository;
 
 import javax.inject.Inject;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
 import static org.springframework.data.mongodb.core.query.Criteria.where;
@@ -26,19 +28,38 @@ public class LinksRepositoryImpl implements LinksRepository {
     private String mongoCollectionName;
 
     @Override
-    public Link saveLink(SaveLinkRequest request) {
+    public Map<String, String> saveLink(SaveLinkRequest request) {
         logger.debug("Going to save '{}'", request);
-        mongoTemplate.save(request, mongoCollectionName);
 
-        Link link = mongoTemplate.findOne(query(where("linkURL").is(request.getLinkURL())), Link.class, mongoCollectionName);
-        if (link == null) {
-            link = new Link();
-            logger.error("Failed to add link to database. '{}'", request);
+        String URL = request.getURL();
+        String id = getLinkId(URL);
+
+        Map<String, String> result = new HashMap<>();
+        result.put("id", id);
+
+        if (id.isEmpty()) {
+            mongoTemplate.save(request, mongoCollectionName);
+            id = getLinkId(URL);
+            result.put("id", id);
+            if (id.isEmpty()) {
+                logger.error("Failed to save link. '{}'", request);
+            } else {
+                logger.info("Successfully saved link. URL: {}, id: [{}]", URL, id);
+            }
         } else {
-            logger.info("Successfully added link to database. URL: {}, id: [{}]", link.getLinkURL(), link.getId());
+            logger.info("Link already saved. URL: {}, id: [{}]", URL, id);
         }
 
-        return link;
+        return result;
+    }
+
+    private String getLinkId(String URL) {
+        Link link = mongoTemplate.findOne(query(where("URL").is(URL)), Link.class, mongoCollectionName);
+        if (link != null) {
+            return link.getId();
+        } else {
+            return "";
+        }
     }
 
     @Override
