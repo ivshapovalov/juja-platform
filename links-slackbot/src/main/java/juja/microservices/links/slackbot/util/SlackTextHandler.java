@@ -12,7 +12,11 @@ import java.util.regex.Pattern;
  */
 @Slf4j
 public class SlackTextHandler {
-
+    /**
+     * URL detection is performed by Slack server, returning links surrounded with angle brackets, then
+     * followed by a pipe character (|) and originally typed version of the URL, if it was not taken as-is.
+     * This method returns bookmarkable links: starting with http, https, ftp and ftps prefixes only.
+     */
     public List<String> getURLsFromText(String text) {
         List<String> result = new ArrayList<>();
 
