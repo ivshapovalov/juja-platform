@@ -24,7 +24,7 @@ public class SlackTextHandler {
         Matcher matcher = p.matcher(text);
         while (matcher.find()) {
             String found = matcher.group().subSequence(1, matcher.group().length() - 1).toString();
-            log.info("URL link found: [{}]", found);
+            log.info("URL link is found: [{}]", found);
             result.add(found);
         }
 
