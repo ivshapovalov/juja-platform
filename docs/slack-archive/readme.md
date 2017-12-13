@@ -43,7 +43,7 @@ This service store all messages from the Juja community slack channels
 ### ARC-F2
 ***ARC-F2 As a user I want to get N last messages in the selected channel***
 
-* ARC-F2-D1 Input parameters: channel id and number of last messages
+* ARC-F2-D1 Input parameters: channel id and number of last messages.
 * ARC-F2-D2 Message it's an entity, that contains message id, time, type, user and text.
 * ARC-F2-D3 Result of the command is list of message entities.
 
@@ -78,13 +78,18 @@ This service store all messages from the Juja community slack channels
     }
 ```
 
-
 ### ARC-F3
 ***ARC-F3 As a system I want to store all raw json slack messages into database***
-* ARC-F3-D1 System stores all messages into database
+* ARC-F3-D1 System stores all messages into database.
 
 
 ### ARC-F4
 ***ARC-F4 As a system I want to store selected by type slack messages into database with parsed format***
-* ARC-F4-D1 System stores selected by type messages
-* ARC-F4-D2 Before storing the message must be parsed to selected fields
+* ARC-F4-D1 System stores selected by type messages.
+* ARC-F4-D2 Before storing the message must be parsed to selected fields.
+
+### ARC-F5
+***ARC-F5 As a system I want to contain actual list of slack channels***
+* ARC-F5-D1 System stores slack channels into separate collection in database.
+* ARC-F5-D2 Channel it's an entity, that contains channel id, channel name.
+* ARC-F5-D3 It's scheduled task, that runs update from slack automatically. 
