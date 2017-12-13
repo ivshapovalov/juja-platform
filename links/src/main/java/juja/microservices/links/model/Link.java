@@ -2,15 +2,16 @@ package juja.microservices.links.model;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import org.hibernate.validator.constraints.NotEmpty;
+import lombok.NonNull;
 import org.springframework.data.annotation.Id;
 
 @Getter
 @EqualsAndHashCode
 public class Link {
     @Id
+    @NonNull
     private String id;
-    @NotEmpty
+    @NonNull
     private String URL;
 
     @Override

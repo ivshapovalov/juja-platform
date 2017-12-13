@@ -1,11 +1,10 @@
 package juja.microservices.links.controller;
 
 import juja.microservices.links.exceptions.ApiErrorMessage;
+import juja.microservices.links.model.Link;
 import juja.microservices.links.model.SaveLinkRequest;
 import juja.microservices.links.service.LinksService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,17 +14,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
-import java.util.Map;
 
+@Slf4j
 @RestController
 @RequestMapping(value = "/v1/links")
 public class LinksController {
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
-
     private LinksService linksService;
     private ApiErrorMessage errorMessage;
 
-    @Autowired
     public LinksController(LinksService linksService, ApiErrorMessage errorMessage) {
         this.linksService = linksService;
         this.errorMessage = errorMessage;
@@ -33,15 +29,15 @@ public class LinksController {
 
     @PostMapping(consumes = "application/json", produces = "application/json")
     public ResponseEntity<?> saveLink(@Valid @RequestBody SaveLinkRequest request) {
-        logger.info("Received saveLink request: '{}'", request);
-        Map<String, String> result = linksService.saveLink(request);
+        log.info("Received saveLink request: '{}'", request);
+        Link link = linksService.saveLink(request);
 
-        if (result.get("id").isEmpty()) {
+        if (link == null) {
             errorMessage.setErrorCode(500);
             errorMessage.setExceptionMessage(String.format("Failed to process '%s'", request.toString()));
             return new ResponseEntity<>(errorMessage, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        return ResponseEntity.ok(result);
+        return ResponseEntity.ok(link);
     }
 
     @GetMapping(produces = "application/json")

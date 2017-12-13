@@ -3,7 +3,6 @@ package juja.microservices.links.service;
 import juja.microservices.links.model.Link;
 import juja.microservices.links.model.SaveLinkRequest;
 
-import java.util.Map;
 import java.util.Set;
 
 /**
@@ -11,7 +10,7 @@ import java.util.Set;
  */
 public interface LinksService {
 
-    Map<String, String> saveLink(SaveLinkRequest request);
+    Link saveLink(SaveLinkRequest request);
 
     Set<Link> getAllLinks();
 }
