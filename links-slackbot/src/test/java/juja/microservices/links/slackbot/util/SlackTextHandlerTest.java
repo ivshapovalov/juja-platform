@@ -1,25 +1,27 @@
 package juja.microservices.links.slackbot.util;
 
 import org.hamcrest.collection.IsIterableContainingInAnyOrder;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 
 /**
  * @author Ben Novikov
  */
 public class SlackTextHandlerTest {
-    private final SlackTextHandler slackTextHandler = new SlackTextHandler();
+    private SlackTextHandler slackTextHandler;
+    private List<String> expected;
+    private String text;
 
-    @Test
-    public void getURLsFromText_getSet_returnsExpectedSet() {
-        String text =
-                "Ссылка <> <http://google.com?parameter=value&also=another|google.com> " +
+    @Before
+    public void setUp() {
+        slackTextHandler = new SlackTextHandler();
+        text =  "Ссылка <> <http://google.com?parameter=value&also=another|google.com> " +
                 "Ссылка <1> http://google.com " +
                 "Ссылка <2 <yandex.ru/page?parameter=value&also=another> " +
                 "Ссылка 3> https://google.info " +
@@ -30,17 +32,19 @@ public class SlackTextHandlerTest {
                 "Ссылка 8 <mailto:mail.mail@post.by|mail@post.by> " +
                 "Ссылка 9 ftp://ya.google.au> " +
                 "Ссылка 9 <ftp://ya.google.mail.ya.au> " +
-                "Ссылка 10 <ftp://name:pass@warehouse.com> " ;
-        List<String> expectedList = new ArrayList<>(Arrays.asList(
+                "Ссылка 10 <ftp://name:pass@warehouse.com> ";
+        expected = new ArrayList<>(Arrays.asList(
                 "http://google.com?parameter=value&also=another",
                 "https://mail.ru",
                 "http://yahoo.us",
                 "ftp://ya.google.mail.ya.au",
                 "ftp://name:pass@warehouse.com"));
+    }
 
-        List<String> actualList = slackTextHandler.getURLsFromText(text);
+    @Test
+    public void getURLsFromText_withTextGiven_shouldReturnFiveLinks() {
+        List<String> actual = slackTextHandler.getURLsFromText(text);
 
-        assertNotNull(actualList);
-        assertThat(actualList, IsIterableContainingInAnyOrder.containsInAnyOrder(expectedList.toArray()));
+        assertThat(actual, IsIterableContainingInAnyOrder.containsInAnyOrder(expected.toArray()));
     }
 }
