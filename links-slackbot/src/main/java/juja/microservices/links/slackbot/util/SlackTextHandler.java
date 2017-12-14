@@ -1,17 +1,16 @@
 package juja.microservices.links.slackbot.util;
 
-import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
 
-import java.util.Set;
+import java.util.List;
 
 /**
  * @author Ivan Shapovalov
  */
-@Slf4j
+@Service
 public class SlackTextHandler {
 
-    public static Set<String> getURLsFromText(String text) {
-
+    public List<String> getURLsFromText(String text) {
         return null;
     }
 }
