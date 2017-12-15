@@ -14,6 +14,6 @@ public class Link {
 
     private final String id;
 
-    private final String URL;
+    private final String url;
 
 }

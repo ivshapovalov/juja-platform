@@ -38,11 +38,11 @@ public class LinksSlackbotController {
     @Value("${slack.slashCommandToken}")
     private String slackToken;
     @Value("${message.sorry}")
-    private String SORRY_MESSAGE;
+    private String messageSorry;
     @Value("${message.save.link.instant}")
-    private String SAVE_LINK_INSTANT_MESSAGE;
+    private String messageSaveLinkInstant;
     @Value("${message.save.link.delayed}")
-    private String SAVE_LINK_DELAYED_MESSAGE;
+    private String messageSaveLinkDelayed;
 
     public LinksSlackbotController(LinksSlackbotService linksSlackbotService,
                                    ExceptionsHandler exceptionsHandler,
@@ -69,9 +69,9 @@ public class LinksSlackbotController {
                                               HttpServletResponse response) throws IOException {
         exceptionsHandler.setResponseUrl(responseUrl);
         if (isRequestCorrect(token, response, responseUrl)) {
-            sendInstantResponseMessage(response, SAVE_LINK_INSTANT_MESSAGE);
+            sendInstantResponseMessage(response, messageSaveLinkInstant);
             Link link = linksSlackbotService.saveLink(text);
-            RichMessage message = new RichMessage(String.format(SAVE_LINK_DELAYED_MESSAGE, link.getURL()));
+            RichMessage message = new RichMessage(String.format(messageSaveLinkDelayed, link.getUrl()));
             sendDelayedResponseMessage(responseUrl, message);
             log.info("'Save link' command processed : text: '{}', response_url: '{}' and sent " +
                     "message to slack: '{}'", text, responseUrl, message.getText());
@@ -100,13 +100,13 @@ public class LinksSlackbotController {
         log.debug("Before checking parameters of request from slack. Token '{}', other '{}' ", token,
                 Arrays.stream(params).sorted().collect(Collectors.joining(",")));
         if (!token.equals(slackToken) ||
-                Arrays.stream(params).filter(param -> param == null || param.isEmpty()).collect(Collectors.toList()).size() > 0) {
-            sendInstantResponseMessage(response, SORRY_MESSAGE);
+                Arrays.stream(params)
+                        .anyMatch(param -> (param == null || param.isEmpty()))) {
+            sendInstantResponseMessage(response, messageSorry);
             return false;
         }
         log.debug("After checking parameters of request from slack. Parameters is correct");
         return true;
     }
-
 }
 

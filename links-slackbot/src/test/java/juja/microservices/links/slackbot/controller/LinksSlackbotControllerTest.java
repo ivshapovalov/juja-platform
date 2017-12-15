@@ -119,7 +119,7 @@ public class LinksSlackbotControllerTest {
         verify(linksSlackbotService).saveLink(commandText);
         ArgumentCaptor<RichMessage> captor = ArgumentCaptor.forClass(RichMessage.class);
         verify(restTemplate).postForObject(eq(responseUrl), captor.capture(), eq(String.class));
-        assertTrue(captor.getValue().getText().contains(String.format(messageSaveLinkDelayed, link.getURL())));
+        assertTrue(captor.getValue().getText().contains(String.format(messageSaveLinkDelayed, link.getUrl())));
         verifyNoMoreInteractions(linksSlackbotService, exceptionsHandler, restTemplate);
     }
 }

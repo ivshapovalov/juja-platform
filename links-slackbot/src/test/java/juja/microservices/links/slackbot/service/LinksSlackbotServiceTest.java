@@ -118,7 +118,7 @@ public class LinksSlackbotServiceTest {
         //then
         assertEquals(expected, actual);
         verify(linksRepository).saveLink(captor.capture());
-        assertTrue(captor.getValue().getURL().equals(expected.getURL()));
+        assertTrue(captor.getValue().getUrl().equals(expected.getUrl()));
         verify(slackTextHandler).getURLsFromText(text);
         verifyNoMoreInteractions(slackTextHandler);
         verifyZeroInteractions(linksRepository);

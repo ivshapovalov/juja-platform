@@ -10,6 +10,6 @@ import lombok.Getter;
 @Getter
 public class SaveLinkRequest {
 
-    private final String URL;
+    private final String url;
 
 }
