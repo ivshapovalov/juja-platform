@@ -1,6 +1,7 @@
 package juja.microservices.slack.archive.service;
 
 import juja.microservices.slack.archive.model.Channel;
+import juja.microservices.slack.archive.model.ChannelDTO;
 import juja.microservices.slack.archive.repository.ArchiveRepository;
 import juja.microservices.slack.archive.service.impl.ArchiveServiceImpl;
 import org.junit.Before;
@@ -12,7 +13,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -50,14 +51,17 @@ public class ArchiveServiceTest {
 
     @Test
     public void getChannelsTest() {
-        List<Channel> expected = Arrays.asList(
-                new Channel("CHANONEID", "flood"),
-                new Channel("CHANTWOID", "feedback")
-        );
+        List<Channel> channels = new ArrayList<>();
+        channels.add(new Channel("CHANONEID", "flood"));
+        channels.add(new Channel("CHANTWOID", "feedback"));
 
-        when(repository.getChannels()).thenReturn(expected);
+        List<ChannelDTO> expected = new ArrayList<>();
+        expected.add(new ChannelDTO("CHANONEID", "flood"));
+        expected.add(new ChannelDTO("CHANTWOID", "feedback"));
 
-        List<Channel> actual = service.getChannels();
+        when(repository.getChannels()).thenReturn(channels);
+
+        List<ChannelDTO> actual = service.getChannels();
 
         assertEquals(expected, actual);
         verify(repository).getChannels();
