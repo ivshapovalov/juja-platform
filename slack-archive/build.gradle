@@ -51,6 +51,7 @@ dependencies {
     compile 'org.springframework.boot:spring-boot-starter-data-mongodb'
     compile 'org.projectlombok:lombok:1.16.10'
     compile 'javax.inject:javax.inject:1'
+    testCompile 'com.github.fakemongo:fongo:2.0.10'
     testCompile 'com.lordofthejars:nosqlunit-mongodb:0.8.1'
     testCompile 'org.springframework.boot:spring-boot-starter-test'
 }

@@ -1,12 +1,12 @@
 {
   "channels": [
     {
-      "id": "CHANIDONE",
-      "name": "flood"
+      "channelId": "CHANIDONE",
+      "channelName": "flood"
     },
     {
-      "id": "CHANIDTWO",
-      "name": "feedback"
+      "channelId": "CHANIDTWO",
+      "channelName": "feedback"
     }
   ]
 }
