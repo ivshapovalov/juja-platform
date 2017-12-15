@@ -17,4 +17,12 @@ public class Channel {
         this.channelId = channelId;
         this.channelName = channelName;
     }
+
+    @Override
+    public String toString() {
+        return "Channel{" +
+                "channelId='" + channelId + '\'' +
+                ", channelName='" + channelName + '\'' +
+                '}';
+    }
 }

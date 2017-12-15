@@ -1,5 +1,6 @@
 package juja.microservices.slack.archive.service.impl;
 
+import juja.microservices.slack.archive.model.Channel;
 import juja.microservices.slack.archive.model.Message;
 import juja.microservices.slack.archive.model.MessagesRequest;
 import juja.microservices.slack.archive.repository.ArchiveRepository;
@@ -28,9 +29,10 @@ public class ArchiveServiceImpl implements ArchiveService {
     }
 
     @Override
-    public List<String> getChannels() {
-        //TODO Should be implemented
-        return null;
+    public List<Channel> getChannels() {
+        List<Channel> channels = repository.getChannels();
+        log.debug("returned list of channels: {}", channels.toString());
+        return channels;
     }
 
     @Override
