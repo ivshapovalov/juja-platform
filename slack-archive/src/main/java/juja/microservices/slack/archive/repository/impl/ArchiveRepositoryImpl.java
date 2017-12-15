@@ -1,5 +1,6 @@
 package juja.microservices.slack.archive.repository.impl;
 
+import juja.microservices.slack.archive.model.Channel;
 import juja.microservices.slack.archive.model.Message;
 import juja.microservices.slack.archive.repository.ArchiveRepository;
 import org.springframework.stereotype.Repository;
@@ -14,7 +15,7 @@ public class ArchiveRepositoryImpl implements ArchiveRepository {
     }
 
     @Override
-    public List<String> getChannels() {
+    public List<Channel> getChannels() {
         //TODO Should be implemented
         return null;
     }

@@ -1,0 +1,12 @@
+{
+  "channels": [
+    {
+      "id": "CHANIDONE",
+      "name": "flood"
+    },
+    {
+      "id": "CHANIDTWO",
+      "name": "feedback"
+    }
+  ]
+}
