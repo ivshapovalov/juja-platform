@@ -64,7 +64,7 @@ This service store all messages from the Juja community slack channels
     [
         {
             "id":"string",
-            "time":long,
+            "date":"string",
             "type":"string",
             "user":"string",
             "text:"string"         
