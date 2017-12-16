@@ -28,7 +28,9 @@ public class ArchiveRepositoryImpl implements ArchiveRepository {
     @Override
     public List<Channel> getChannels() {
         List<Channel> channels = mongoTemplate.findAll(Channel.class, channelsCollectionName);
-        if(channels.isEmpty()) { log.info("Channels collection is empty"); }
+        if (channels.isEmpty()) {
+            log.info("Channels collection is empty");
+        }
         return channels;
     }
 

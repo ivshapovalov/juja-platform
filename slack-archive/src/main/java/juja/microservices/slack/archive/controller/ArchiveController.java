@@ -40,8 +40,8 @@ public class ArchiveController {
 
     @GetMapping(value = "/channels", consumes = "application/json")
     public ResponseEntity<?> getChannels() {
-        log.info("Received request to get all channels");
         List<ChannelDTO> channels = service.getChannels();
+        log.info("Prepared and sent a list of channels, size = {}", channels.size());
         return ResponseEntity.ok(channels);
     }
 

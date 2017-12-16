@@ -4,6 +4,7 @@ import com.lordofthejars.nosqlunit.annotation.UsingDataSet;
 import juja.microservices.slack.archive.model.ChannelDTO;
 import juja.microservices.slack.archive.repository.impl.ArchiveRepositoryImpl;
 import juja.microservices.slack.archive.service.impl.ArchiveServiceImpl;
+import org.hamcrest.collection.IsIterableContainingInAnyOrder;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -11,10 +12,11 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.inject.Inject;
+import java.util.ArrayList;
 import java.util.List;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
 
 @RunWith(SpringRunner.class)
 public class ArchiveServiceIntegrationTest extends BaseIntegrationTest {
@@ -31,13 +33,13 @@ public class ArchiveServiceIntegrationTest extends BaseIntegrationTest {
     @Test
     @UsingDataSet(locations = "/datasets/channels.json")
     public void getChannelsTest() {
-        ChannelDTO channelOne = new ChannelDTO("CHANIDONE", "flood");
-        ChannelDTO channelTwo = new ChannelDTO("CHANIDTWO", "feedback");
+        List<ChannelDTO> expected = new ArrayList<>();
+        expected.add(new ChannelDTO("CHANIDONE", "flood"));
+        expected.add(new ChannelDTO("CHANIDTWO", "feedback"));
 
         List<ChannelDTO> actual = service.getChannels();
 
         assertNotNull(actual);
-        assertTrue(actual.contains(channelOne));
-        assertTrue(actual.contains(channelTwo));
+        assertThat(actual, IsIterableContainingInAnyOrder.containsInAnyOrder(expected.toArray()));
     }
 }
