@@ -14,6 +14,11 @@ public class Link {
     @NonNull
     private String URL;
 
+    public Link(String id, String URL) {
+        this.id = id;
+        this.URL = URL;
+    }
+
     @Override
     public String toString() {
         return String.format("Link[id=%s, URL='%s']", id, URL);

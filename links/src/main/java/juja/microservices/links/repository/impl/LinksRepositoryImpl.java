@@ -45,7 +45,7 @@ public class LinksRepositoryImpl implements LinksRepository {
         return link;
     }
 
-    private Link getLinkByURL(String URL) {
+    public Link getLinkByURL(String URL) {
         return mongoTemplate.findOne(query(where("URL").is(URL)), Link.class, mongoCollectionName);
     }
 

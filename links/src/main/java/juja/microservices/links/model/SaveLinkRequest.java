@@ -14,7 +14,7 @@ public class SaveLinkRequest {
     private String URL;
 
     @JsonCreator
-    public SaveLinkRequest(@JsonProperty("URL") String URL) {
+    public SaveLinkRequest(@JsonProperty("url") String URL) {
         this.URL = URL;
     }
 
