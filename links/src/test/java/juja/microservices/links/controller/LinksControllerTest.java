@@ -21,7 +21,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@ComponentScan(basePackages = {"juja.microservices.links.exceptions"})
+@ComponentScan(basePackages = {"juja.microservices.links.exception"})
 @RunWith(SpringRunner.class)
 @WebMvcTest(LinksController.class)
 public class LinksControllerTest {

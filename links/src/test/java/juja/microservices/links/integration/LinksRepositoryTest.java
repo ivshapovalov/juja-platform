@@ -22,6 +22,7 @@ public class LinksRepositoryTest extends BaseIntegrationTest {
     private LinksRepositoryImpl repository;
 
     @Test
+    @UsingDataSet(locations = "/dataset/links-empty.json")
     public void saveNewLinkTest() {
         String url = "http://test.com";
         Link result = repository.saveLink(new SaveLinkRequest(url));

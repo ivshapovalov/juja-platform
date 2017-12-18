@@ -39,7 +39,7 @@ public class LinksServiceTest {
     }
 
     @Test
-    public void saveLinkTest() {
+    public void saveLinkTest() throws Exception {
         String url = "http://test.com";
         String id = "5a30508811d3b338a0b3f85c";
         Link expected = new Link(id, url);

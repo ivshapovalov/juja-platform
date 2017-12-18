@@ -1,5 +1,6 @@
 package juja.microservices.links.service.impl;
 
+import juja.microservices.links.exception.InternalErrorException;
 import juja.microservices.links.model.Link;
 import juja.microservices.links.model.SaveLinkRequest;
 import juja.microservices.links.repository.LinksRepository;
@@ -19,8 +20,14 @@ public class LinksServiceImpl implements LinksService {
     }
 
     @Override
-    public Link saveLink(SaveLinkRequest request) {
-        return linksRepository.saveLink(request);
+    public Link saveLink(SaveLinkRequest request) throws Exception {
+        Link link = linksRepository.saveLink(request);
+
+        if (link == null) {
+            throw new InternalErrorException(String.format("Failed to process '%s'", request.toString()));
+        }
+
+        return link;
     }
 
     @Override

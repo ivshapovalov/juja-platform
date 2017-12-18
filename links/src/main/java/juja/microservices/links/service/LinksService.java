@@ -10,7 +10,7 @@ import java.util.Set;
  */
 public interface LinksService {
 
-    Link saveLink(SaveLinkRequest request);
+    Link saveLink(SaveLinkRequest request) throws Exception;
 
     Set<Link> getAllLinks();
 }
