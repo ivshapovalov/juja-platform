@@ -11,15 +11,15 @@ import org.hibernate.validator.constraints.NotEmpty;
 @EqualsAndHashCode
 public class SaveLinkRequest {
     @NotEmpty
-    private String URL;
+    private String url;
 
     @JsonCreator
-    public SaveLinkRequest(@JsonProperty("url") String URL) {
-        this.URL = URL;
+    public SaveLinkRequest(@JsonProperty("url") String url) {
+        this.url = url;
     }
 
     @Override
     public String toString() {
-        return String.format("Link[URL='%s']", URL);
+        return String.format("Link[url='%s']", url);
     }
 }

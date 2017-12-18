@@ -45,12 +45,12 @@ public class LinksServiceTest {
         Link expected = new Link(id, url);
         SaveLinkRequest request = new SaveLinkRequest(url);
 
-        when(repository.saveLink(request)).thenReturn(expected);
+        when(repository.saveLink(url)).thenReturn(expected);
 
         Link result = service.saveLink(request);
 
         assertEquals(expected, result);
-        verify(repository).saveLink(request);
+        verify(repository).saveLink(url);
         verifyNoMoreInteractions(repository);
     }
 }

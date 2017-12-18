@@ -21,7 +21,7 @@ public class LinksServiceImpl implements LinksService {
 
     @Override
     public Link saveLink(SaveLinkRequest request) throws Exception {
-        Link link = linksRepository.saveLink(request);
+        Link link = linksRepository.saveLink(request.getUrl());
 
         if (link == null) {
             throw new InternalErrorException(String.format("Failed to process '%s'", request.toString()));

@@ -1,7 +1,6 @@
 package juja.microservices.links.repository.impl;
 
 import juja.microservices.links.model.Link;
-import juja.microservices.links.model.SaveLinkRequest;
 import juja.microservices.links.repository.LinksRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -9,6 +8,7 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Repository;
 
 import javax.inject.Inject;
+import java.util.HashMap;
 import java.util.Set;
 
 import static org.springframework.data.mongodb.core.query.Criteria.where;
@@ -24,33 +24,30 @@ public class LinksRepositoryImpl implements LinksRepository {
     private String mongoCollectionName;
 
     @Override
-    public Link saveLink(SaveLinkRequest request) {
+    public Link saveLink(String url) {
         Link link;
-        String URL = request.getURL();
-        String id = getLinkId(URL);
+        HashMap<String, String> data = new HashMap<>();
+        data.put("url", url);
+        data.put("id", getLinkId(url));
 
-        if (id.isEmpty()) {
-            mongoTemplate.save(request, mongoCollectionName);
-            link = getLinkByURL(URL);
-            if (link == null) {
-                log.error("Failed to save link. '{}'", request);
-            } else {
-                log.info("Successfully saved link. URL: {}, id: [{}]", URL, link.getId());
-            }
+        if (data.get("id").isEmpty()) {
+            mongoTemplate.save(data, mongoCollectionName);
+            link = getLinkByURL(url);
+            log.info("Successfully saved link. url: {}, id: [{}]", link.getUrl(), link.getId());
         } else {
-            link = getLinkByURL(URL);
-            log.info("Link already saved. URL: {}, id: [{}]", URL, id);
+            link = getLinkByURL(url);
+            log.info("Link already saved. url: {}, id: [{}]", url, data.get("id"));
         }
 
         return link;
     }
 
-    public Link getLinkByURL(String URL) {
-        return mongoTemplate.findOne(query(where("URL").is(URL)), Link.class, mongoCollectionName);
+    public Link getLinkByURL(String url) {
+        return mongoTemplate.findOne(query(where("url").is(url)), Link.class, mongoCollectionName);
     }
 
-    private String getLinkId(String URL) {
-        Link link = getLinkByURL(URL);
+    private String getLinkId(String url) {
+        Link link = getLinkByURL(url);
         if (link != null) {
             return link.getId();
         } else {

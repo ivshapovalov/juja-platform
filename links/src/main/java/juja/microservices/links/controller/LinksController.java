@@ -2,6 +2,7 @@ package juja.microservices.links.controller;
 
 import juja.microservices.links.model.SaveLinkRequest;
 import juja.microservices.links.service.LinksService;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,13 +15,10 @@ import javax.validation.Valid;
 
 @Slf4j
 @RestController
+@AllArgsConstructor
 @RequestMapping(value = "/v1/links")
 public class LinksController {
     private final LinksService linksService;
-
-    public LinksController(LinksService linksService) {
-        this.linksService = linksService;
-    }
 
     @PostMapping(consumes = "application/json;charset=UTF-8", produces = "application/json;charset=UTF-8")
     public ResponseEntity<?> saveLink(@Valid @RequestBody SaveLinkRequest request) throws Exception {

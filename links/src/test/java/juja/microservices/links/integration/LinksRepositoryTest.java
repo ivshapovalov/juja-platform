@@ -2,7 +2,6 @@ package juja.microservices.links.integration;
 
 import com.lordofthejars.nosqlunit.annotation.UsingDataSet;
 import juja.microservices.links.model.Link;
-import juja.microservices.links.model.SaveLinkRequest;
 import juja.microservices.links.repository.impl.LinksRepositoryImpl;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -25,21 +24,21 @@ public class LinksRepositoryTest extends BaseIntegrationTest {
     @UsingDataSet(locations = "/dataset/links-empty.json")
     public void saveNewLinkTest() {
         String url = "http://test.com";
-        Link result = repository.saveLink(new SaveLinkRequest(url));
+        Link result = repository.saveLink(url);
 
         assertNotNull(result);
         assertThat(result.getId(), not(isEmptyString()));
-        assertEquals(url, result.getURL());
+        assertEquals(url, result.getUrl());
     }
 
     @Test
     @UsingDataSet(locations = "/dataset/links.json")
     public void saveExistingLinkTest() {
         String url = "http://test.com";
-        Link result = repository.saveLink(new SaveLinkRequest(url));
+        Link result = repository.saveLink(url);
 
         assertNotNull(result);
-        assertEquals(url, result.getURL());
+        assertEquals(url, result.getUrl());
         assertEquals("5a30508811d3b338a0b3f85c", result.getId());
     }
 }
