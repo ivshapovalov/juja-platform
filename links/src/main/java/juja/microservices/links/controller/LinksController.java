@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.inject.Inject;
 import java.util.Set;
 
 /**
@@ -20,8 +19,11 @@ import java.util.Set;
 @RestController
 @RequestMapping(value = "/v1/links")
 public class LinksController {
-    @Inject
     private LinksService linksService;
+
+    public LinksController(LinksService linksService) {
+        this.linksService = linksService;
+    }
 
     @PostMapping(consumes = "application/json", produces = "application/json")
     public ResponseEntity<?> saveLink(@RequestBody SaveLinkRequest request) {
