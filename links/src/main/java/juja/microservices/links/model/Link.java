@@ -16,7 +16,7 @@ public class Link {
     @NotEmpty
     private String URL;
 
-    public Link(String URL) {
+    public Link(String id, String URL) {
         this.URL = URL;
     }
 

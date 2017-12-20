@@ -41,7 +41,7 @@ public class LinksControllerTest {
 
     @Test
     public void testGetAllLinks() throws Exception {
-        List<Link> expectedList = Arrays.asList(new Link("www.test1.com"), new Link("www.test2.net"));
+        List<Link> expectedList = Arrays.asList(new Link("1", "www.test1.com"), new Link("2", "www.test2.net"));
         when(linksService.getAllLinks()).thenReturn(expectedList);
 
         String result = mockMvc.perform(get(linksGetAllLinksUrl)

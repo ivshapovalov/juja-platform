@@ -24,14 +24,14 @@ public class LinksServiceTest {
     private LinksRepository linksRepository;
 
     @Before
-    public void beforeEachTest() {
+    public void setUp() {
         linksRepository = mock(LinksRepository.class);
         linksService = new LinksServiceImpl(linksRepository);
     }
 
     @Test
-    public void testGetAllLinks() throws Exception {
-        List<Link> expectedList = Arrays.asList(new Link("www.test1.com"), new Link("www.test2.net"));
+    public void testGetAllLinks() {
+        List<Link> expectedList = Arrays.asList(new Link("1", "www.test1.com"), new Link("2", "www.test2.net"));
         when(linksRepository.getAllLinks()).thenReturn(expectedList);
         List<Link> result = linksService.getAllLinks();
         assertEquals(result, expectedList);
