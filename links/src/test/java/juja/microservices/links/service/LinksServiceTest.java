@@ -7,8 +7,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
@@ -32,9 +31,9 @@ public class LinksServiceTest {
 
     @Test
     public void testGetAllLinks() throws Exception {
-        Set<Link> expectedList = new HashSet(Arrays.asList(new Link("www.test1.com"), new Link("www.test2.net")));
+        List<Link> expectedList = Arrays.asList(new Link("www.test1.com"), new Link("www.test2.net"));
         when(linksRepository.getAllLinks()).thenReturn(expectedList);
-        Set<Link> result = linksService.getAllLinks();
+        List<Link> result = linksService.getAllLinks();
         assertEquals(result, expectedList);
     }
 }

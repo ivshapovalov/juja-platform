@@ -21,8 +21,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import javax.inject.Inject;
 import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 /**
  * @author Ivan Shapovalov
@@ -42,7 +41,7 @@ public class LinksControllerTest {
 
     @Test
     public void testGetAllLinks() throws Exception {
-        Set<Link> expectedList = new HashSet(Arrays.asList(new Link("www.test1.com"), new Link("www.test2.net")));
+        List<Link> expectedList = Arrays.asList(new Link("www.test1.com"), new Link("www.test2.net"));
         when(linksService.getAllLinks()).thenReturn(expectedList);
 
         String result = mockMvc.perform(get(linksGetAllLinksUrl)

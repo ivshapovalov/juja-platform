@@ -6,9 +6,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  * @author Ivan Shapovalov
@@ -33,8 +31,7 @@ public class LinksRepositoryImpl implements LinksRepository {
     }
 
     @Override
-    public Set<Link> getAllLinks() {
-        List<Link> links = mongoTemplate.findAll(Link.class, mongoCollectionName);
-        return new LinkedHashSet<>(links);
+    public List<Link> getAllLinks() {
+        return mongoTemplate.findAll(Link.class, mongoCollectionName);
     }
 }

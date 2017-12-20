@@ -6,8 +6,7 @@ import juja.microservices.links.repository.LinksRepository;
 import juja.microservices.links.service.LinksService;
 import org.springframework.stereotype.Service;
 
-import javax.inject.Inject;
-import java.util.Set;
+import java.util.List;
 
 /**
  * @author Ivan Shapovalov
@@ -17,7 +16,6 @@ import java.util.Set;
 @Service
 public class LinksServiceImpl implements LinksService {
 
-    @Inject
     private LinksRepository linksRepository;
 
     public LinksServiceImpl(LinksRepository linksRepository) {
@@ -30,7 +28,7 @@ public class LinksServiceImpl implements LinksService {
     }
 
     @Override
-    public Set<Link> getAllLinks() {
+    public List<Link> getAllLinks() {
         return linksRepository.getAllLinks();
     }
 }

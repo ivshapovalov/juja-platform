@@ -53,7 +53,7 @@ public class LinksRepositoryTest {
     @UsingDataSet(locations = {"/json/AllLinks.json"}, loadStrategy = LoadStrategyEnum.CLEAN_INSERT)
     public void testGetAllLinks() throws IOException {
         List<Link> expected = getLinksFromJsonFile("src/test/resources/json/AllLinks.json");
-        Set<Link> result = linksRepository.getAllLinks();
+        List<Link> result = linksRepository.getAllLinks();
         assertEquals(expected.size(), result.size());
         assertEquals(expected.toString(), result.toString());
     }

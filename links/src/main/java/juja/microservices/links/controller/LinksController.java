@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Set;
+import java.util.List;
 
 /**
  * @author Vladimir Zadorozhniy
@@ -32,7 +32,7 @@ public class LinksController {
 
     @GetMapping(produces = "application/json")
     public ResponseEntity<?> getAllLinks() {
-        Set<Link> result = linksService.getAllLinks();
+        List<Link> result = linksService.getAllLinks();
         return ResponseEntity.ok(result);
     }
 }
