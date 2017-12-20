@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Repository;
 
-import javax.inject.Inject;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -21,7 +20,6 @@ public class LinksRepositoryImpl implements LinksRepository {
 
     private String mongoCollectionName;
 
-    @Inject
     private MongoTemplate mongoTemplate;
 
     public LinksRepositoryImpl(MongoTemplate mongoTemplate, @Value("${spring.data.mongodb.collection}") String mongoCollectionName) {
