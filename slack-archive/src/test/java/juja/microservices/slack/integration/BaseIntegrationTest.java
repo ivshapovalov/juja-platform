@@ -6,7 +6,7 @@ import com.lordofthejars.nosqlunit.mongodb.MongoDbRule;
 import com.lordofthejars.nosqlunit.mongodb.SpringMongoDbRule;
 import com.mongodb.MockMongoClient;
 import com.mongodb.MongoClient;
-import juja.microservices.slack.archive.Application;
+import juja.microservices.slack.archive.SlackArchiveApplication;
 import org.junit.Rule;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.web.context.WebApplicationContext;
@@ -19,7 +19,7 @@ import static juja.microservices.slack.integration.ArchiveTestConfig.TEST_DATABA
  * @author danil.kuznetsov
  * @author Vadim Dyachenko
  */
-@SpringBootTest(classes = {ArchiveTestConfig.class, Application.class})
+@SpringBootTest(classes = {ArchiveTestConfig.class, SlackArchiveApplication.class})
 public class BaseIntegrationTest {
 
     @Rule
