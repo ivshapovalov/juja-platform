@@ -1,7 +1,12 @@
 package juja.microservices.links.slackbot.service;
 
-import org.springframework.stereotype.Service;
+import juja.microservices.links.slackbot.model.Link;
 
-@Service
-public class LinksSlackbotService {
+/**
+ * @author Ivan Shapovalov
+ */
+public interface LinksSlackbotService {
+
+    Link saveLink(String text);
+
 }
