@@ -6,7 +6,6 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import org.hibernate.validator.constraints.NotEmpty;
 
-
 @Getter
 @EqualsAndHashCode
 public class SaveLinkRequest {

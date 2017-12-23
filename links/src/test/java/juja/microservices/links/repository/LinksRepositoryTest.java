@@ -11,7 +11,8 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.springframework.data.mongodb.core.MongoTemplate;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
 
 import static com.lordofthejars.nosqlunit.mongodb.InMemoryMongoDb.InMemoryMongoRuleBuilder.newInMemoryMongoDbRule;
 import static com.lordofthejars.nosqlunit.mongodb.MongoDbRule.MongoDbRuleBuilder.newMongoDbRule;
@@ -26,16 +27,12 @@ import static org.junit.Assert.assertThat;
 public class LinksRepositoryTest {
 
     private static final String DB_NAME = "test-links";
-
-    private List<Link> expectedList =
-            Arrays.asList(new Link("1", "www.test1.com"), new Link("2", "www.test2.net"));
-
     @ClassRule
     public static InMemoryMongoDb mongod = newInMemoryMongoDbRule().build();
-
     @Rule
     public MongoDbRule mongoRule = newMongoDbRule().defaultEmbeddedMongoDb(DB_NAME);
-
+    private List<Link> expectedList =
+            Arrays.asList(new Link("1", "www.test1.com"), new Link("2", "www.test2.net"));
     private LinksRepository linksRepository;
 
     @Before
