@@ -1,7 +1,13 @@
 package juja.microservices.links.slackbot.repository;
 
+import juja.microservices.links.slackbot.model.Link;
+import juja.microservices.links.slackbot.model.SaveLinkRequest;
+
+/**
+ * @author Ivan Shapovalov
+ */
 public interface LinksRepository {
 
-    String addLink(String url);
+    Link saveLink(SaveLinkRequest saveLinkRequest);
 
 }

@@ -7,21 +7,30 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Repository;
 
-import javax.inject.Inject;
 import java.util.HashMap;
-import java.util.Set;
+import java.util.List;
 
 import static org.springframework.data.mongodb.core.query.Criteria.where;
 import static org.springframework.data.mongodb.core.query.Query.query;
 
+
+/**
+ * @author Ivan Shapovalov
+ * @author Vladimid Zadorozhniy
+ */
+
 @Slf4j
 @Repository
 public class LinksRepositoryImpl implements LinksRepository {
-    @Inject
     private MongoTemplate mongoTemplate;
 
     @Value("${spring.data.mongodb.collection}")
     private String mongoCollectionName;
+
+    public LinksRepositoryImpl(MongoTemplate mongoTemplate, @Value("${spring.data.mongodb.collection}") String mongoCollectionName) {
+        this.mongoTemplate = mongoTemplate;
+        this.mongoCollectionName = mongoCollectionName;
+    }
 
     @Override
     public Link saveLink(String url) {
@@ -56,7 +65,7 @@ public class LinksRepositoryImpl implements LinksRepository {
     }
 
     @Override
-    public Set<Link> getAllLinks() {
-        return null;
+    public List<Link> getAllLinks() {
+        return mongoTemplate.findAll(Link.class, mongoCollectionName);
     }
 }

@@ -13,29 +13,37 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import java.util.Arrays;
+import java.util.List;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
+/**
+ * @author Ivan Shapovalov
+ * @author Vladimir Zadorozhniy
+ */
+
 @RunWith(MockitoJUnitRunner.class)
 public class LinksServiceTest {
     @Rule
     final public ExpectedException expectedException = ExpectedException.none();
-    private LinksService service;
+    private LinksService linksService;
     @Mock
-    private LinksRepository repository;
+    private LinksRepository linksRepository;
 
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-        service = new LinksServiceImpl(repository);
+        linksService = new LinksServiceImpl(linksRepository);
     }
 
     @Test
     public void testMockCreation() {
-        assertNotNull(repository);
+        assertNotNull(linksRepository);
     }
 
     @Test
@@ -45,12 +53,21 @@ public class LinksServiceTest {
         Link expected = new Link(id, url);
         SaveLinkRequest request = new SaveLinkRequest(url);
 
-        when(repository.saveLink(url)).thenReturn(expected);
+        when(linksRepository.saveLink(url)).thenReturn(expected);
 
-        Link result = service.saveLink(request);
+        Link result = linksService.saveLink(request);
 
         assertEquals(expected, result);
-        verify(repository).saveLink(url);
-        verifyNoMoreInteractions(repository);
+        verify(linksRepository).saveLink(url);
+        verifyNoMoreInteractions(linksRepository);
+    }
+
+
+    @Test
+    public void testGetAllLinks() {
+        List<Link> expectedList = Arrays.asList(new Link("1", "www.test1.com"), new Link("2", "www.test2.net"));
+        when(linksRepository.getAllLinks()).thenReturn(expectedList);
+        List<Link> result = linksService.getAllLinks();
+        assertEquals(result, expectedList);
     }
 }

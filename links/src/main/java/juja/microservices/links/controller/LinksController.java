@@ -1,5 +1,6 @@
 package juja.microservices.links.controller;
 
+import juja.microservices.links.model.Link;
 import juja.microservices.links.model.SaveLinkRequest;
 import juja.microservices.links.service.LinksService;
 import lombok.AllArgsConstructor;
@@ -12,6 +13,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.util.List;
+
+/**
+ * @author Vladimir Zadorozhniy
+ */
 
 @Slf4j
 @RestController
@@ -28,6 +34,7 @@ public class LinksController {
 
     @GetMapping(produces = "application/json")
     public ResponseEntity<?> getAllLinks() {
-        return null;
+        List<Link> result = linksService.getAllLinks();
+        return ResponseEntity.ok(result);
     }
 }

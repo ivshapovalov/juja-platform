@@ -1,0 +1,62 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.5.9.RELEASE")
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+group 'juja'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'org.springframework.boot'
+
+jar {
+    baseName = "slack-archive"
+    version = "0.1-SNAPSHOT"
+}
+
+description = "slack-archive"
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
+test.testLogging {
+    events "skipped", "failed"
+    exceptionFormat "SHORT"
+    showStandardStreams = true
+}
+
+test {
+    afterTest { desc, result ->
+        println "Executing test ${desc.name} [${desc.className}] with result: ${result.resultType}"
+    }
+}
+
+dependencies {
+    compile("org.springframework.boot:spring-boot-starter-web") {
+        exclude module: 'spring-boot-starter-tomcat'
+    }
+    compile 'org.springframework.boot:spring-boot-starter-jetty'
+    compile 'org.springframework.boot:spring-boot-starter-data-mongodb'
+    compile 'org.projectlombok:lombok:1.16.10'
+    compile 'javax.inject:javax.inject:1'
+    testCompile 'net.javacrumbs.json-unit:json-unit-fluent:1.19.0'
+    testCompile 'com.github.fakemongo:fongo:2.0.10'
+    testCompile 'com.lordofthejars:nosqlunit-mongodb:0.8.1'
+    testCompile 'org.springframework.boot:spring-boot-starter-test'
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '3.3'
+}
