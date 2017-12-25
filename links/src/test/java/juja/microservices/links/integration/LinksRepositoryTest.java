@@ -30,15 +30,4 @@ public class LinksRepositoryTest extends BaseIntegrationTest {
         assertThat(result.getId(), not(isEmptyString()));
         assertEquals(url, result.getUrl());
     }
-
-    @Test
-    @UsingDataSet(locations = "/dataset/links.json")
-    public void saveExistingLinkTest() {
-        String url = "http://test.com";
-        Link result = repository.saveLink(url);
-
-        assertNotNull(result);
-        assertEquals(url, result.getUrl());
-        assertEquals("5a30508811d3b338a0b3f85c", result.getId());
-    }
 }

@@ -1,6 +1,6 @@
 package juja.microservices.links.service.impl;
 
-import juja.microservices.links.exception.InternalErrorException;
+import juja.microservices.links.exception.NotFoundException;
 import juja.microservices.links.model.Link;
 import juja.microservices.links.model.SaveLinkRequest;
 import juja.microservices.links.repository.LinksRepository;
@@ -15,7 +15,6 @@ import java.util.List;
  * @author Ivan Shapovalov
  * @author Vladimir Zadorozhniy
  */
-
 @Slf4j
 @Service
 @AllArgsConstructor
@@ -23,11 +22,15 @@ public class LinksServiceImpl implements LinksService {
     private LinksRepository linksRepository;
 
     @Override
-    public Link saveLink(SaveLinkRequest request) throws Exception {
-        Link link = linksRepository.saveLink(request.getUrl());
+    public Link saveLink(SaveLinkRequest request) {
+        Link link;
 
-        if (link == null) {
-            throw new InternalErrorException(String.format("Failed to process '%s'", request.toString()));
+        try {
+            link = linksRepository.getLinkByURL(request.getUrl());
+            log.info("Link already exists {}. ", link.toString());
+        } catch (NotFoundException ex) {
+            link = linksRepository.saveLink(request.getUrl());
+            log.info("Successfully saved link {}.", link.toString());
         }
 
         return link;

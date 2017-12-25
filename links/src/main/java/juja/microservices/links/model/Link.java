@@ -3,7 +3,7 @@ package juja.microservices.links.model;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.NonNull;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.data.annotation.Id;
@@ -12,15 +12,19 @@ import org.springframework.data.annotation.Id;
 @Setter
 @AllArgsConstructor
 @EqualsAndHashCode
+@NoArgsConstructor
 public class Link {
     @Id
-    @NonNull
     private String id;
     @NotEmpty
     private String url;
 
+    public Link(String url) {
+        this.url = url;
+    }
+
     @Override
     public String toString() {
-        return String.format("{_id=%s, url=%s}", id, url);
+        return String.format("Link[id='%s', url='%s']", id, url);
     }
 }

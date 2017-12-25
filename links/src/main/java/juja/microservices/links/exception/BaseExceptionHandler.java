@@ -7,12 +7,11 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 @ControllerAdvice
 public class BaseExceptionHandler {
-
-    @ExceptionHandler(InternalErrorException.class)
-    public ResponseEntity<ExceptionResponse> resourceNotFound(InternalErrorException ex) {
+    @ExceptionHandler(NotFoundException.class)
+    public ResponseEntity<ExceptionResponse> objectNotFound(NotFoundException ex) {
         ExceptionResponse response = new ExceptionResponse();
         response.setErrorMessage(ex.getMessage());
 
-        return new ResponseEntity<ExceptionResponse>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
 }

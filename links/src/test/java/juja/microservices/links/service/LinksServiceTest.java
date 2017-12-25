@@ -1,5 +1,6 @@
 package juja.microservices.links.service;
 
+import juja.microservices.links.exception.NotFoundException;
 import juja.microservices.links.model.Link;
 import juja.microservices.links.model.SaveLinkRequest;
 import juja.microservices.links.repository.LinksRepository;
@@ -47,21 +48,38 @@ public class LinksServiceTest {
     }
 
     @Test
-    public void saveLinkTest() throws Exception {
+    public void saveNewLinkTest() throws Exception {
         String url = "http://test.com";
         String id = "5a30508811d3b338a0b3f85c";
         Link expected = new Link(id, url);
         SaveLinkRequest request = new SaveLinkRequest(url);
 
+        when(linksRepository.getLinkByURL(url)).thenThrow(new NotFoundException(""));
         when(linksRepository.saveLink(url)).thenReturn(expected);
 
-        Link result = linksService.saveLink(request);
+        Link actual = linksService.saveLink(request);
 
-        assertEquals(expected, result);
+        assertEquals(expected, actual);
         verify(linksRepository).saveLink(url);
+        verify(linksRepository).getLinkByURL(url);
         verifyNoMoreInteractions(linksRepository);
     }
 
+    @Test
+    public void saveExistingLinkTest() throws Exception {
+        String url = "http://test.com";
+        String id = "5a30508811d3b338a0b3f85c";
+        Link expected = new Link(id, url);
+        SaveLinkRequest request = new SaveLinkRequest(url);
+
+        when(linksRepository.getLinkByURL(url)).thenReturn(expected);
+
+        Link actual = linksService.saveLink(request);
+
+        assertEquals(expected, actual);
+        verify(linksRepository).getLinkByURL(url);
+        verifyNoMoreInteractions(linksRepository);
+    }
 
     @Test
     public void testGetAllLinks() {
