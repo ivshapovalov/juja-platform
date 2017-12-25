@@ -47,6 +47,9 @@ dependencies {
     compile("org.springframework.boot:spring-boot-starter-web") {
         exclude module: 'spring-boot-starter-tomcat'
     }
+    compile 'org.springframework.boot:spring-boot-starter-aop'
+    compile group: 'org.aspectj', name: 'aspectjrt', version: '1.7.3'
+
     compile 'org.springframework.boot:spring-boot-starter-jetty'
     compile 'org.springframework.boot:spring-boot-starter-data-mongodb'
 
