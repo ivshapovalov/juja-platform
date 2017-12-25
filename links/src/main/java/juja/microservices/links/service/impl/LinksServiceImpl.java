@@ -30,7 +30,6 @@ public class LinksServiceImpl implements LinksService {
             log.info("Link already exists {}. ", link.toString());
         } catch (NotFoundException ex) {
             link = linksRepository.saveLink(request.getUrl());
-            log.info("Successfully saved link {}.", link.toString());
         }
 
         return link;

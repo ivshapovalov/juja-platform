@@ -35,7 +35,7 @@ public class LinksRepositoryImpl implements LinksRepository {
         Link link = new Link(url);
 
         mongoTemplate.save(link, mongoCollectionName);
-        log.info("Saved link {}", link.toString());
+        log.info("Successfully saved link {}.", link.toString());
 
         return link;
     }
