@@ -24,7 +24,7 @@ import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -64,7 +64,7 @@ public class LinksControllerTest {
 
         when(linksService.saveLink(request)).thenReturn(expected);
 
-        String result = mockMvc.perform(post(LINKS_URL)
+        String result = mockMvc.perform(put(LINKS_URL)
                 .content(asJsonString(request))
                 .contentType(APPLICATION_JSON_UTF8))
                 .andExpect(status().isOk())
