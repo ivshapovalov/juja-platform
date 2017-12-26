@@ -58,20 +58,20 @@ public class LinksControllerTest {
     public void saveLinkTest() throws Exception {
         String url = "http://test.com";
         String id = "5a30508811d3b338a0b3f85c";
-        Link expected = new Link(id, url);
+        Link link = new Link(id, url);
         SaveLinkRequest request = new SaveLinkRequest(url);
-        String response = asJsonString(expected);
+        String expected = asJsonString(link);
 
-        when(linksService.saveLink(request)).thenReturn(expected);
+        when(linksService.saveLink(request)).thenReturn(link);
 
-        String result = mockMvc.perform(put(LINKS_URL)
+        String actual = mockMvc.perform(put(LINKS_URL)
                 .content(asJsonString(request))
                 .contentType(APPLICATION_JSON_UTF8))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(APPLICATION_JSON_UTF8))
                 .andReturn().getResponse().getContentAsString();
 
-        assertEquals(response, result);
+        assertEquals(expected, actual);
     }
 
     @Test
