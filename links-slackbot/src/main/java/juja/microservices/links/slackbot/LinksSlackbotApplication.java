@@ -3,7 +3,9 @@ package juja.microservices.links.slackbot;
 import org.apache.http.impl.client.HttpClients;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.netflix.feign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.http.converter.HttpMessageConverter;
@@ -14,7 +16,12 @@ import org.springframework.web.client.RestTemplate;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author Ivan Shapovalov
+ */
+@EnableFeignClients
 @SpringBootApplication
+@PropertySource(value = {"classpath:application.properties", "classpath:messages/message.properties"})
 public class LinksSlackbotApplication {
 
     public static void main(String[] args) {
