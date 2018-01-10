@@ -23,7 +23,7 @@
           "200": {
             "description": "Ok",
             "schema": {
-              "$ref": "#/definitions/RequestResponse"
+              "$ref": "#/definitions/LinkRequestResponse"
             }
           },
           "404": {
@@ -48,7 +48,7 @@
             "description": "Link to be updated",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/PostRequest"
+              "$ref": "#/definitions/SaveLinkRequest"
             }
           }
         ],
@@ -56,7 +56,7 @@
           "201": {
             "description": "Link successfully has been saved.",
             "schema": {
-              "$ref": "#/definitions/RequestResponse"
+              "$ref": "#/definitions/LinkRequestResponse"
             }
           },
           "400": {
@@ -70,7 +70,7 @@
     }
   },
   "definitions": {
-    "RequestResponse": {
+    "LinkRequestResponse": {
       "description": "A JSON object containing link`s information",
       "type": "object",
       "properties": {
@@ -86,10 +86,6 @@
           "type": "string",
           "description": "the link been saved before"
         },
-        "label": {
-          "type": "string",
-          "description": "a label given by user"
-        },
         "archived": {
           "type": "boolean",
           "description": "archived links are not visible to users"
@@ -99,11 +95,10 @@
         "id": 100500,
         "user": "asdfa64839412",
         "url": "https://swagger.io/docs/specification/describing-request-body/",
-        "label": "Saved link's label given by user",
         "archived": false
       }
     },
-    "PostRequest": {
+    "SaveLinkRequest": {
       "description": "A JSON object containing link`s information, has no ID before it`s saved, every just saved link is not archived by default, so there is no id & active fields",
       "type": "object",
       "properties": {
@@ -114,16 +109,11 @@
         "url": {
           "type": "string",
           "description": "the link being saved"
-        },
-        "label": {
-          "type": "string",
-          "description": "a label given by user"
         }
       },
       "example": {
         "user": "asdfa64839412",
-        "url": "https://swagger.io/docs/specification/describing-request-body/",
-        "label": "Saved link's label given by user"
+        "url": "https://swagger.io/docs/specification/describing-request-body/"
       }
     }
   }
