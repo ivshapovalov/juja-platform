@@ -1,24 +1,42 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "Links API",
-    "description": "API for links microservice data exchange.  ",
-    "version": "0.1.0"
+    "description": "API documentation for Links service",
+    "version": "1.0",
+    "title": "Links API Documentation",
+    "termsOfService": "Terms of service",
+    "contact": {
+      "name": "JujaLabs",
+      "url": "https://juja.com.ua/",
+      "email": "info@juja.com.ua"
+    },
+    "license": {
+      "name": "Apache License Version 2.0",
+      "url": "https://www.apache.org/licenses/LICENSE-2.0"
+    }
   },
-  "host": "evo.juja.com.ua",
-  "basePath": "/v1",
-  "schemes": [
-    "https"
-  ],
-  "produces": [
-    "application/json"
+  "basePath": "/",
+  "tags": [
+    {
+      "name": "links-controller",
+      "description": "Links Controller"
+    }
   ],
   "paths": {
-    "/links": {
+    "/v1/links": {
       "get": {
+        "tags": [
+          "links-controller"
+        ],
         "summary": "Get all links",
         "description": "Returns a list containing saved links. The list supports paging.",
-        "operationId": "",
+        "operationId": "getAllLinksUsingGET",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
         "responses": {
           "200": {
             "description": "Ok",
@@ -35,10 +53,16 @@
         }
       },
       "post": {
+        "tags": [
+          "links-controller"
+        ],
         "summary": "Save a link",
         "description": "Adds a new link to the links list.",
-        "operationId": "",
+        "operationId": "saveLinkUsingPOST",
         "consumes": [
+          "application/json"
+        ],
+        "produces": [
           "application/json"
         ],
         "parameters": [
