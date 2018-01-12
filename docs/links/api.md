@@ -122,4 +122,4 @@ public Boolean getHidden() {
 ```
 ### Swagger Definition
 The SwaggerDefinition annotation provides properties corresponding to many (but not all) top-level properties of the Swagger object, 
-allowing you to set these for your auto-generated definition when the project starts or whenever you find it necessary. 
+allowing you to set these when the project starts or whenever you find it necessary for your auto-generated definition. 
