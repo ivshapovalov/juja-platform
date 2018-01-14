@@ -3,8 +3,9 @@ package juja.microservices.links.slackbot.repository.impl;
 import feign.FeignException;
 import juja.microservices.links.slackbot.exceptions.ApiError;
 import juja.microservices.links.slackbot.exceptions.LinksExchangeException;
-import juja.microservices.links.slackbot.model.Link;
-import juja.microservices.links.slackbot.model.SaveLinkRequest;
+import juja.microservices.links.slackbot.model.links.HideLinkRequest;
+import juja.microservices.links.slackbot.model.links.Link;
+import juja.microservices.links.slackbot.model.links.SaveLinkRequest;
 import juja.microservices.links.slackbot.repository.LinksRepository;
 import juja.microservices.links.slackbot.repository.feign.LinksClient;
 import juja.microservices.links.slackbot.util.Utils;
@@ -18,7 +19,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class LinksRepositoryImpl implements LinksRepository {
 
-    private LinksClient linksClient;
+    private final LinksClient linksClient;
 
     public LinksRepositoryImpl(LinksClient linksClient) {
         this.linksClient = linksClient;
@@ -34,6 +35,19 @@ public class LinksRepositoryImpl implements LinksRepository {
             throw new LinksExchangeException(error, ex);
         }
         log.info("Link saved: '{}'", link.getId());
+        return link;
+    }
+
+    @Override
+    public Link hideLink(HideLinkRequest hideLinkRequest) {
+        Link link;
+        try {
+            link = linksClient.hideLink(hideLinkRequest);
+        } catch (FeignException ex) {
+            ApiError error = Utils.convertToApiError(ex.getMessage());
+            throw new LinksExchangeException(error, ex);
+        }
+        log.info("Link hid: '{}'", link.getId());
         return link;
     }
 }

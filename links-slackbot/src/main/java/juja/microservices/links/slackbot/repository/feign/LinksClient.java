@@ -1,7 +1,8 @@
 package juja.microservices.links.slackbot.repository.feign;
 
-import juja.microservices.links.slackbot.model.Link;
-import juja.microservices.links.slackbot.model.SaveLinkRequest;
+import juja.microservices.links.slackbot.model.links.HideLinkRequest;
+import juja.microservices.links.slackbot.model.links.Link;
+import juja.microservices.links.slackbot.model.links.SaveLinkRequest;
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,4 +19,8 @@ public interface LinksClient {
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     Link saveLink(SaveLinkRequest request);
 
+    @RequestMapping(method = RequestMethod.PUT, value = "/v1/links",
+            consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    Link hideLink(HideLinkRequest hideLinkRequest);
 }
