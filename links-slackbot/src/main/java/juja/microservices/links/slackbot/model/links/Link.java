@@ -1,4 +1,4 @@
-package juja.microservices.links.slackbot.model;
+package juja.microservices.links.slackbot.model.links;
 
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
