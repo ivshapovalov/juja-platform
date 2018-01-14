@@ -4,7 +4,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import juja.microservices.links.slackbot.exceptions.ExceptionsHandler;
-import juja.microservices.links.slackbot.model.Link;
+import juja.microservices.links.slackbot.model.links.Link;
 import juja.microservices.links.slackbot.service.LinksSlackbotService;
 import lombok.extern.slf4j.Slf4j;
 import me.ramswaroop.jbot.core.slack.models.RichMessage;
@@ -43,6 +43,10 @@ public class LinksSlackbotController {
     private String messageSaveLinkInstant;
     @Value("${message.save.link.delayed}")
     private String messageSaveLinkDelayed;
+    @Value("${message.hide.link.instant}")
+    private String messageHideLinkInstant;
+    @Value("${message.hide.link.delayed}")
+    private String messageHideLinkDelayed;
 
     public LinksSlackbotController(LinksSlackbotService linksSlackbotService,
                                    ExceptionsHandler exceptionsHandler,
@@ -74,6 +78,32 @@ public class LinksSlackbotController {
             RichMessage message = new RichMessage(String.format(messageSaveLinkDelayed, link.getUrl()));
             sendDelayedResponseMessage(responseUrl, message);
             log.info("'Save link' command processed : text: '{}', response_url: '{}' and sent " +
+                    "message to slack: '{}'", text, responseUrl, message.getText());
+        }
+    }
+
+    @ApiOperation(value = "Hide user's link", notes = "Returns a message with hidden Link id or Exception message",
+            response = RichMessage.class, tags = {})
+    @ApiResponses(value = {
+            @ApiResponse(code = HttpURLConnection.HTTP_OK, message = "Successfully hide new link"),
+            @ApiResponse(code = HttpURLConnection.HTTP_BAD_REQUEST, message = "Bad request"),
+            @ApiResponse(code = HttpURLConnection.HTTP_BAD_METHOD, message = "Bad method"),
+            @ApiResponse(code = HttpURLConnection.HTTP_UNSUPPORTED_TYPE, message = "Unsupported request media type")
+    })
+    @PostMapping(value = "/links/hide", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    public void onReceiveSlashCommandHideLink(
+            @RequestParam("token") String token,
+            @RequestParam("text") String text,
+            @RequestParam("user_id") String fromSlackUser,
+            @RequestParam("response_url") String responseUrl,
+            HttpServletResponse response) throws IOException {
+        exceptionsHandler.setResponseUrl(responseUrl);
+        if (isRequestCorrect(token, response, fromSlackUser, responseUrl)) {
+            sendInstantResponseMessage(response, messageHideLinkInstant);
+            Link link = linksSlackbotService.hideLink(fromSlackUser, text);
+            RichMessage message = new RichMessage(String.format(messageHideLinkDelayed, link.getId()));
+            sendDelayedResponseMessage(responseUrl, message);
+            log.info("'Hide link' command processed : text: '{}', response_url: '{}' and sent " +
                     "message to slack: '{}'", text, responseUrl, message.getText());
         }
     }
