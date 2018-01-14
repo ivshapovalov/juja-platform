@@ -42,10 +42,9 @@ public class LinksServiceTest {
     }
 
     @Test
-    public void saveNewLinkTest() throws Exception {
+    public void saveLinkWhenUrlNotExistsInDatabase() throws Exception {
         String url = "http://test.com";
-        String id = "5a30508811d3b338a0b3f85c";
-        Link expected = new Link(id, url);
+        Link expected = new Link(url);
         SaveLinkRequest request = new SaveLinkRequest(url);
 
         when(linksRepository.getLinkByURL(url)).thenThrow(new NotFoundException(""));
@@ -54,16 +53,15 @@ public class LinksServiceTest {
         Link actual = linksService.saveLink(request);
 
         assertEquals(expected, actual);
-        verify(linksRepository).saveLink(url);
         verify(linksRepository).getLinkByURL(url);
+        verify(linksRepository).saveLink(url);
         verifyNoMoreInteractions(linksRepository);
     }
 
     @Test
-    public void saveExistingLinkTest() throws Exception {
+    public void saveLinkWhenUrlExistsInDatabase() throws Exception {
         String url = "http://test.com";
-        String id = "5a30508811d3b338a0b3f85c";
-        Link expected = new Link(id, url);
+        Link expected = new Link(url);
         SaveLinkRequest request = new SaveLinkRequest(url);
 
         when(linksRepository.getLinkByURL(url)).thenReturn(expected);
@@ -76,10 +74,19 @@ public class LinksServiceTest {
     }
 
     @Test
-    public void testGetAllLinks() {
-        List<Link> expectedList = Arrays.asList(new Link("1", "www.test1.com"), new Link("2", "www.test2.net"));
-        when(linksRepository.getAllLinks()).thenReturn(expectedList);
-        List<Link> result = linksService.getAllLinks();
-        assertEquals(result, expectedList);
+    public void getAllLinksExecutedCorrectly() {
+        //given
+        List<Link> expected = Arrays.asList(
+                new Link("www.test1.com"),
+                new Link("www.test2.net"));
+        when(linksRepository.getAllLinks()).thenReturn(expected);
+
+        //when
+        List<Link> actual = linksService.getAllLinks();
+
+        //then
+        assertEquals(expected, actual);
+        verify(linksRepository).getAllLinks();
+        verifyNoMoreInteractions(linksRepository);
     }
 }

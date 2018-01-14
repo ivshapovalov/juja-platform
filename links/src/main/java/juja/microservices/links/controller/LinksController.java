@@ -18,7 +18,6 @@ import java.util.List;
 /**
  * @author Vladimir Zadorozhniy
  */
-
 @Slf4j
 @RestController
 @AllArgsConstructor
@@ -27,13 +26,15 @@ public class LinksController {
     private final LinksService linksService;
 
     @PutMapping(consumes = "application/json;charset=UTF-8", produces = "application/json;charset=UTF-8")
-    public ResponseEntity<?> saveLink(@Valid @RequestBody SaveLinkRequest request) throws Exception {
-        log.info("Received saveLink request: '{}'", request);
-        return ResponseEntity.ok(linksService.saveLink(request));
+    public ResponseEntity<Link> saveLink(@Valid @RequestBody SaveLinkRequest request) throws Exception {
+        log.info("Received save Link request: '{}'", request);
+        Link link = linksService.saveLink(request);
+        return ResponseEntity.ok(link);
     }
 
     @GetMapping(produces = "application/json")
-    public ResponseEntity<?> getAllLinks() {
+    public ResponseEntity<List<Link>> getAllLinks() {
+        log.info("Received get All Links request");
         List<Link> result = linksService.getAllLinks();
         return ResponseEntity.ok(result);
     }
