@@ -24,13 +24,13 @@ public class SwaggerConfig {
                 .apis(RequestHandlerSelectors.basePackage("juja.microservices.links.slackbot.controller"))
                 .paths(PathSelectors.any())
                 .build()
-                .apiInfo(metaData());
+                .apiInfo(appInfo());
     }
 
-    private ApiInfo metaData() {
+    private ApiInfo appInfo() {
 
         return new ApiInfo(
-                "Links-slackbot API Documentation",
+                "Links Slackbot API Documentation",
                 "API documentation for Links-slackbot",
                 "1.0",
                 "Terms of service",

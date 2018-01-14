@@ -1,8 +1,5 @@
 package juja.microservices.links.slackbot.controller;
 
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
 import juja.microservices.links.slackbot.exceptions.ExceptionsHandler;
 import juja.microservices.links.slackbot.model.links.Link;
 import juja.microservices.links.slackbot.service.LinksSlackbotService;
@@ -19,7 +16,6 @@ import org.springframework.web.client.RestTemplate;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.net.HttpURLConnection;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
@@ -29,7 +25,7 @@ import java.util.stream.Collectors;
 @RestController
 @Slf4j
 @RequestMapping(value = "/v1/commands")
-public class LinksSlackbotController {
+public class LinksSlackbotController implements LinksSlackbotApi {
 
     private final RestTemplate restTemplate;
     private final LinksSlackbotService linksSlackbotService;
@@ -56,16 +52,7 @@ public class LinksSlackbotController {
         this.restTemplate = restTemplate;
     }
 
-    @ApiOperation(
-            value = "Save new link in links storage",
-            notes = "This method save new useful link in links storage"
-    )
-    @ApiResponses(value = {
-            @ApiResponse(code = HttpURLConnection.HTTP_OK, message = "Successfully saved new link"),
-            @ApiResponse(code = HttpURLConnection.HTTP_BAD_REQUEST, message = "Bad request"),
-            @ApiResponse(code = HttpURLConnection.HTTP_BAD_METHOD, message = "Bad method"),
-            @ApiResponse(code = HttpURLConnection.HTTP_UNSUPPORTED_TYPE, message = "Unsupported request media type")
-    })
+    @Override
     @PostMapping(value = "/links/save", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     public void onReceiveSlashCommandSaveLink(@RequestParam("token") String token,
                                               @RequestParam("text") String text,
@@ -82,21 +69,13 @@ public class LinksSlackbotController {
         }
     }
 
-    @ApiOperation(value = "Hide user's link", notes = "Returns a message with hidden Link id or Exception message",
-            response = RichMessage.class, tags = {})
-    @ApiResponses(value = {
-            @ApiResponse(code = HttpURLConnection.HTTP_OK, message = "Successfully hide new link"),
-            @ApiResponse(code = HttpURLConnection.HTTP_BAD_REQUEST, message = "Bad request"),
-            @ApiResponse(code = HttpURLConnection.HTTP_BAD_METHOD, message = "Bad method"),
-            @ApiResponse(code = HttpURLConnection.HTTP_UNSUPPORTED_TYPE, message = "Unsupported request media type")
-    })
+    @Override
     @PostMapping(value = "/links/hide", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-    public void onReceiveSlashCommandHideLink(
-            @RequestParam("token") String token,
-            @RequestParam("text") String text,
-            @RequestParam("user_id") String fromSlackUser,
-            @RequestParam("response_url") String responseUrl,
-            HttpServletResponse response) throws IOException {
+    public void onReceiveSlashCommandHideLink(@RequestParam("token") String token,
+                                              @RequestParam("text") String text,
+                                              @RequestParam("user_id") String fromSlackUser,
+                                              @RequestParam("response_url") String responseUrl,
+                                              HttpServletResponse response) throws IOException {
         exceptionsHandler.setResponseUrl(responseUrl);
         if (isRequestCorrect(token, response, fromSlackUser, responseUrl)) {
             sendInstantResponseMessage(response, messageHideLinkInstant);
