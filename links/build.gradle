@@ -47,6 +47,9 @@ dependencies {
     compile("org.springframework.boot:spring-boot-starter-web") {
         exclude module: 'spring-boot-starter-tomcat'
     }
+    compile 'org.springframework.boot:spring-boot-starter-aop'
+    compile group: 'org.aspectj', name: 'aspectjrt', version: '1.7.3'
+
     compile 'org.springframework.boot:spring-boot-starter-jetty'
     compile 'org.springframework.boot:spring-boot-starter-data-mongodb'
 
@@ -61,6 +64,8 @@ dependencies {
     testCompile 'net.javacrumbs.json-unit:json-unit-fluent:1.27.0'
     testCompile 'com.github.fakemongo:fongo:2.0.10'
     testCompile 'com.lordofthejars:nosqlunit-mongodb:0.8.1'
+    testCompile group: 'org.powermock', name: 'powermock-api-mockito', version: '1.7.3'
+    testCompile group: 'org.powermock', name: 'powermock-module-junit4', version: '1.7.3'
 }
 
 task wrapper(type: Wrapper) {
