@@ -1,30 +1,31 @@
 package juja.microservices.links.model;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import org.hibernate.validator.constraints.NotEmpty;
-import org.springframework.data.annotation.Id;
 
-@Getter
-@Setter
+/**
+ * @author Ivan Shapovalov
+ */
+@Data
 @AllArgsConstructor
-@EqualsAndHashCode
 @NoArgsConstructor
+@ApiModel
 public class Link {
-    @Id
+
+    @ApiModelProperty(value = "Id of saved link")
     private String id;
     @NotEmpty
+    @ApiModelProperty(value = "URL of saved link", required = true)
     private String url;
+
+    @ApiModelProperty(value = "Flag that means link is hidden or active")
+    private boolean hidden;
 
     public Link(String url) {
         this.url = url;
-    }
-
-    @Override
-    public String toString() {
-        return String.format("Link[id='%s', url='%s']", id, url);
     }
 }
