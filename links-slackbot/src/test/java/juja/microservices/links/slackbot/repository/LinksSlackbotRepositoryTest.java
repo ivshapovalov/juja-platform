@@ -2,8 +2,9 @@ package juja.microservices.links.slackbot.repository;
 
 import feign.FeignException;
 import juja.microservices.links.slackbot.exceptions.LinksExchangeException;
-import juja.microservices.links.slackbot.model.Link;
-import juja.microservices.links.slackbot.model.SaveLinkRequest;
+import juja.microservices.links.slackbot.model.links.HideLinkRequest;
+import juja.microservices.links.slackbot.model.links.Link;
+import juja.microservices.links.slackbot.model.links.SaveLinkRequest;
 import juja.microservices.links.slackbot.repository.feign.LinksClient;
 import juja.microservices.links.slackbot.repository.impl.LinksRepositoryImpl;
 import org.junit.Before;
@@ -81,6 +82,55 @@ public class LinksSlackbotRepositoryTest {
         } finally {
             //then
             verify(linksClient).saveLink(saveLinkRequest);
+            verifyNoMoreInteractions(linksClient);
+        }
+    }
+
+    @Test
+    public void hideLinkSendRequestToRemoteLinksServerAndReturnLinkIdExecutedCorrectly() throws IOException {
+        //given
+        HideLinkRequest hideLinkRequest = new HideLinkRequest("slack-from", "id1");
+        Link expected = new Link("id1", "url1");
+
+        when(linksClient.hideLink(hideLinkRequest)).thenReturn(expected);
+
+        //when
+        Link actual = linksRepository.hideLink(hideLinkRequest);
+
+        //then
+        assertEquals(expected, actual);
+        verify(linksClient).hideLink(hideLinkRequest);
+        verifyNoMoreInteractions(linksClient);
+    }
+
+    @Test
+    public void hideLinkSendRequestToRemoteLinksServerWhichReturnsErrorThrowsException() throws IOException {
+        //given
+        HideLinkRequest hideLinkRequest = new HideLinkRequest("slack-from", "id1");
+        String expectedJsonResponseBody =
+                "status 400 reading GatewayClient#hideLink(HideLinkRequest); content:" +
+                        "{\n" +
+                        "  \"httpStatus\": 400,\n" +
+                        "  \"internalErrorCode\": \"LKS-F1-D3\",\n" +
+                        "  \"clientMessage\": \"Sorry, Links server return an error\",\n" +
+                        "  \"developerMessage\": \"Exception - LinksExchangeException\",\n" +
+                        "  \"exceptionMessage\": \"Something wrong on Links server\",\n" +
+                        "  \"detailErrors\": []\n" +
+                        "}";
+        FeignException feignException = mock(FeignException.class);
+
+        when(linksClient.hideLink(hideLinkRequest)).thenThrow(feignException);
+        when(feignException.getMessage()).thenReturn(expectedJsonResponseBody);
+
+        expectedException.expect(LinksExchangeException.class);
+        expectedException.expectMessage(containsString("Sorry, Links server return an error"));
+
+        try {
+            //when
+            linksRepository.hideLink(hideLinkRequest);
+        } finally {
+            //then
+            verify(linksClient).hideLink(hideLinkRequest);
             verifyNoMoreInteractions(linksClient);
         }
     }
