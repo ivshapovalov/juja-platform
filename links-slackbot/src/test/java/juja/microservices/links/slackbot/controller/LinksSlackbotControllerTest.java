@@ -122,7 +122,7 @@ public class LinksSlackbotControllerTest {
     public void onReceiveSlashCommandSaveLinkWhenAllCorrectShouldReturnOkMessage() throws Exception {
         //given
         String commandText = " <http://mail.com> ";
-        Link link = new Link("id1", "http://mail.com");
+        Link link = new Link("uuid1", "id1", "http://mail.com");
         String responseUrl = "http://example.com";
 
         when(linksSlackbotService.saveLink(commandText)).thenReturn(link);
@@ -147,7 +147,7 @@ public class LinksSlackbotControllerTest {
     public void onReceiveSlashCommandHideLinkWhenAllCorrectShouldReturnOkMessage() throws Exception {
         //given
         String commandText = "id1";
-        Link link = new Link("id1", "http://mail.com");
+        Link link = new Link("uuid1", "id1", "http://mail.com");
         String responseUrl = "http://example.com";
         String fromUser = "slack-from";
 

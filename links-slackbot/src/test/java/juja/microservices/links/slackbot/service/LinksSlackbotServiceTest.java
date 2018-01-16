@@ -113,7 +113,7 @@ public class LinksSlackbotServiceTest {
         //given
         String text = "dfa <url1> asdfdasf";
         List<String> urls = Collections.singletonList("url1");
-        Link expected = new Link("id1", "url1");
+        Link expected = new Link("uuid1", "id1", "url1");
         when(slackTextHandler.getURLsFromText(text)).thenReturn(urls);
         ArgumentCaptor<SaveLinkRequest> captorSaveLinkRequest = ArgumentCaptor.forClass(SaveLinkRequest.class);
         when(linksRepository.saveLink(captorSaveLinkRequest.capture())).thenReturn(expected);
@@ -143,7 +143,7 @@ public class LinksSlackbotServiceTest {
         String fromSlackUser = "slack-from";
         String owner = "uuid1";
         List<User> users = Collections.singletonList(new User(owner, fromSlackUser));
-        Link expected = new Link(text, "url1");
+        Link expected = new Link("uuid1", text, "url1");
         when(userService.findUsersBySlackUsers(anyListOf(String.class))).thenReturn(users);
         ArgumentCaptor<HideLinkRequest> captorHideLinkRequest = ArgumentCaptor.forClass(HideLinkRequest.class);
         when(linksRepository.hideLink(captorHideLinkRequest.capture())).thenReturn(expected);
@@ -159,7 +159,7 @@ public class LinksSlackbotServiceTest {
             soft.assertThat(captorHideLinkRequest.getValue().getId())
                     .as("'captorHideLinkRequest' text not equals expected text")
                     .isEqualTo(text);
-            soft.assertThat(captorHideLinkRequest.getValue().getOwner())
+            soft.assertThat(captorHideLinkRequest.getValue().getUuid())
                     .as("'captorHideLinkRequest' owner not equals expected owner")
                     .isEqualTo(owner);
         });

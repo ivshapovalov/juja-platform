@@ -41,7 +41,7 @@ public class LinksSlackbotRepositoryTest {
     public void saveLinkSendRequestToRemoteLinksServerAndReturnLinkIdExecutedCorrectly() throws IOException {
         //given
         SaveLinkRequest saveLinkRequest = new SaveLinkRequest("url1");
-        Link expected = new Link("id1", "url1");
+        Link expected = new Link("uuid1", "id1", "url1");
 
         when(linksClient.saveLink(saveLinkRequest)).thenReturn(expected);
 
@@ -90,7 +90,7 @@ public class LinksSlackbotRepositoryTest {
     public void hideLinkSendRequestToRemoteLinksServerAndReturnLinkIdExecutedCorrectly() throws IOException {
         //given
         HideLinkRequest hideLinkRequest = new HideLinkRequest("slack-from", "id1");
-        Link expected = new Link("id1", "url1");
+        Link expected = new Link("uuid1", "id1", "url1");
 
         when(linksClient.hideLink(hideLinkRequest)).thenReturn(expected);
 

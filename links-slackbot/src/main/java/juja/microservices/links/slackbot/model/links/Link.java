@@ -12,6 +12,8 @@ import lombok.Getter;
 @EqualsAndHashCode
 public class Link {
 
+    private final String owner;
+
     private final String id;
 
     private final String url;
