@@ -27,13 +27,13 @@ public class LinksController {
     private final LinksService linksService;
 
     @PostMapping(consumes = "application/json;charset=UTF-8", produces = "application/json;charset=UTF-8")
-    public ResponseEntity<?> saveLink(@Valid @RequestBody SaveLinkRequest request) throws Exception {
+    public ResponseEntity<Link> saveLink(@Valid @RequestBody SaveLinkRequest request) throws Exception {
         log.info("Received saveLink request: '{}'", request);
         return ResponseEntity.ok(linksService.saveLink(request));
     }
 
     @GetMapping(produces = "application/json")
-    public ResponseEntity<?> getAllLinks() {
+    public ResponseEntity<List<Link>> getAllLinks() {
         List<Link> result = linksService.getAllLinks();
         return ResponseEntity.ok(result);
     }
