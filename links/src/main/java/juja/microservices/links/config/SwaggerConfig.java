@@ -1,5 +1,9 @@
 package juja.microservices.links.config;
 
+import com.fasterxml.classmate.TypeResolver;
+import juja.microservices.links.model.Link;
+import juja.microservices.links.model.SaveLinkRequest;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.PathSelectors;
@@ -13,6 +17,9 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @Configuration
 @EnableSwagger2
 public class SwaggerConfig {
+    @Autowired
+    private TypeResolver typeResolver;
+
     @Bean
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
@@ -21,11 +28,12 @@ public class SwaggerConfig {
                 .apis(RequestHandlerSelectors.basePackage("juja.microservices.links.controller"))
                 .paths(PathSelectors.any())
                 .build()
+                .additionalModels(typeResolver.resolve(Link.class))
+                .additionalModels(typeResolver.resolve(SaveLinkRequest.class))
                 .apiInfo(metaData());
     }
 
     private ApiInfo metaData() {
-
         return new ApiInfo(
                 "Links API Documentation",
                 "API documentation for Links service",

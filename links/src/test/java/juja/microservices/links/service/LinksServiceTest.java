@@ -45,17 +45,18 @@ public class LinksServiceTest {
     public void saveNewLinkTest() throws Exception {
         String url = "http://test.com";
         String id = "5a30508811d3b338a0b3f85c";
-        Link expected = new Link(id, url);
-        SaveLinkRequest request = new SaveLinkRequest(url);
+        String owner = "a-user";
+        Link expected = new Link(id, owner, url);
+        SaveLinkRequest request = new SaveLinkRequest(owner, url);
 
-        when(linksRepository.getLinkByURL(url)).thenThrow(new NotFoundException(""));
-        when(linksRepository.saveLink(url)).thenReturn(expected);
+        when(linksRepository.getLinkByURL(owner, url)).thenThrow(new NotFoundException(""));
+        when(linksRepository.saveLink(owner, url)).thenReturn(expected);
 
         Link actual = linksService.saveLink(request);
 
         assertEquals(expected, actual);
-        verify(linksRepository).saveLink(url);
-        verify(linksRepository).getLinkByURL(url);
+        verify(linksRepository).saveLink(owner, url);
+        verify(linksRepository).getLinkByURL(owner, url);
         verifyNoMoreInteractions(linksRepository);
     }
 
@@ -63,15 +64,16 @@ public class LinksServiceTest {
     public void saveExistingLinkTest() throws Exception {
         String url = "http://test.com";
         String id = "5a30508811d3b338a0b3f85c";
-        Link expected = new Link(id, url);
-        SaveLinkRequest request = new SaveLinkRequest(url);
+        String owner = "a-user";
+        Link expected = new Link(id, owner, url);
+        SaveLinkRequest request = new SaveLinkRequest(owner, url);
 
-        when(linksRepository.getLinkByURL(url)).thenReturn(expected);
+        when(linksRepository.getLinkByURL(owner, url)).thenReturn(expected);
 
         Link actual = linksService.saveLink(request);
 
         assertEquals(expected, actual);
-        verify(linksRepository).getLinkByURL(url);
+        verify(linksRepository).getLinkByURL(owner, url);
         verifyNoMoreInteractions(linksRepository);
     }
 
