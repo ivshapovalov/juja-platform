@@ -1,8 +1,14 @@
 package juja.microservices.links.slackbot.controller;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import juja.microservices.links.slackbot.exceptions.ExceptionsHandler;
 import juja.microservices.links.slackbot.model.links.Link;
 import juja.microservices.links.slackbot.service.LinksSlackbotService;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import me.ramswaroop.jbot.core.slack.models.RichMessage;
 import org.springframework.beans.factory.annotation.Value;
@@ -16,6 +22,7 @@ import org.springframework.web.client.RestTemplate;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.HttpURLConnection;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
@@ -24,8 +31,10 @@ import java.util.stream.Collectors;
  */
 @RestController
 @Slf4j
-@RequestMapping(value = "/v1/commands")
-public class LinksSlackbotController implements LinksSlackbotApi {
+@Api(tags = "Links Slackbot", description = "The Links Slackbot API")
+@RequestMapping(value = "/v1/commands/links")
+@AllArgsConstructor
+public class LinksSlackbotController {
 
     private final RestTemplate restTemplate;
     private final LinksSlackbotService linksSlackbotService;
@@ -44,18 +53,24 @@ public class LinksSlackbotController implements LinksSlackbotApi {
     @Value("${message.hide.link.delayed}")
     private String messageHideLinkDelayed;
 
-    public LinksSlackbotController(LinksSlackbotService linksSlackbotService,
-                                   ExceptionsHandler exceptionsHandler,
-                                   RestTemplate restTemplate) {
-        this.linksSlackbotService = linksSlackbotService;
-        this.exceptionsHandler = exceptionsHandler;
-        this.restTemplate = restTemplate;
-    }
-
-    @Override
-    @PostMapping(value = "/links/save", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-    public void onReceiveSlashCommandSaveLink(@RequestParam("token") String token,
+    @ApiOperation(
+            value = "Save new link in links storage",
+            notes = "Returns a message with saved Link id or Exception message",
+            response = RichMessage.class, tags = {}
+    )
+    @ApiResponses(value = {
+            @ApiResponse(code = HttpURLConnection.HTTP_OK, message = "The link has been successfully saved"),
+            @ApiResponse(code = HttpURLConnection.HTTP_BAD_REQUEST, message = "Bad request"),
+            @ApiResponse(code = HttpURLConnection.HTTP_BAD_METHOD, message = "Bad method"),
+            @ApiResponse(code = HttpURLConnection.HTTP_UNSUPPORTED_TYPE, message = "Unsupported request media type"),
+            @ApiResponse(code = HttpURLConnection.HTTP_NOT_FOUND, message = "Not found")
+    })
+    @PostMapping(value = "/save", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    public void onReceiveSlashCommandSaveLink(@ApiParam(value = "Valid slack token", required = true)
+                                              @RequestParam("token") String token,
+                                              @ApiParam(value = "Command text", required = true)
                                               @RequestParam("text") String text,
+                                              @ApiParam(value = "Slack responce URL", required = true)
                                               @RequestParam("response_url") String responseUrl,
                                               HttpServletResponse response) throws IOException {
         exceptionsHandler.setResponseUrl(responseUrl);
@@ -69,12 +84,26 @@ public class LinksSlackbotController implements LinksSlackbotApi {
         }
     }
 
-    @Override
-    @PostMapping(value = "/links/hide", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-    public void onReceiveSlashCommandHideLink(@RequestParam("token") String token,
+    @ApiOperation(
+            value = "Hide user's link",
+            notes = "Returns a message with hidden Link id or Exception message",
+            response = RichMessage.class, tags = {})
+    @ApiResponses(value = {
+            @ApiResponse(code = HttpURLConnection.HTTP_OK, message = "The link has been successfully hidden"),
+            @ApiResponse(code = HttpURLConnection.HTTP_BAD_REQUEST, message = "Bad request"),
+            @ApiResponse(code = HttpURLConnection.HTTP_BAD_METHOD, message = "Bad method"),
+            @ApiResponse(code = HttpURLConnection.HTTP_UNSUPPORTED_TYPE, message = "Unsupported request media type"),
+            @ApiResponse(code = HttpURLConnection.HTTP_NOT_FOUND, message = "Not found")
+    })
+    @PostMapping(value = "/hide", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    public void onReceiveSlashCommandHideLink(@ApiParam(value = "Valid slack token", required = true)
+                                              @RequestParam("token") String token,
+                                              @ApiParam(value = "Command text", required = true)
                                               @RequestParam("text") String text,
-                                              @RequestParam("user_id") String fromSlackUser,
+                                              @ApiParam(value = "Slack responce URL", required = true)
                                               @RequestParam("response_url") String responseUrl,
+                                              @ApiParam(value = "User that used command", required = true)
+                                              @RequestParam("user_id") String fromSlackUser,
                                               HttpServletResponse response) throws IOException {
         exceptionsHandler.setResponseUrl(responseUrl);
         if (isRequestCorrect(token, response, fromSlackUser, responseUrl)) {
@@ -114,7 +143,7 @@ public class LinksSlackbotController implements LinksSlackbotApi {
             sendInstantResponseMessage(response, messageSorry);
             return false;
         }
-        log.debug("After checking parameters of request from slack. Parameters is correct");
+        log.debug("After checking slack request parameters. Parameters are correct");
         return true;
     }
 }
