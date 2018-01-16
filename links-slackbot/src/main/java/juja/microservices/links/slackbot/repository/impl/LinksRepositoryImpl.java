@@ -34,7 +34,7 @@ public class LinksRepositoryImpl implements LinksRepository {
             ApiError error = Utils.convertToApiError(ex.getMessage());
             throw new LinksExchangeException(error, ex);
         }
-        log.info("Link saved: '{}'", link.getId());
+        log.info("Link is saved: '{}'", link.getId());
         return link;
     }
 
@@ -47,7 +47,7 @@ public class LinksRepositoryImpl implements LinksRepository {
             ApiError error = Utils.convertToApiError(ex.getMessage());
             throw new LinksExchangeException(error, ex);
         }
-        log.info("Link hid: '{}'", link.getId());
+        log.info("Link is hidden: '{}'", link.getId());
         return link;
     }
 }
