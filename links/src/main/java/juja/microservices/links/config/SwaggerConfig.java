@@ -25,7 +25,6 @@ public class SwaggerConfig {
     }
 
     private ApiInfo metaData() {
-
         return new ApiInfo(
                 "Links API Documentation",
                 "API documentation for Links service",

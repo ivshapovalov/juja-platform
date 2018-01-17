@@ -8,9 +8,9 @@ import java.util.List;
  * @author Ivan Shapovalov
  */
 public interface LinksRepository {
-    Link saveLink(String url);
+    Link saveLink(String owner, String url);
 
     List<Link> getAllLinks();
 
-    Link getLinkByURL(String url);
+    Link getLinkByURL(String owner, String url);
 }

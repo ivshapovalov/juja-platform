@@ -24,7 +24,8 @@ public class LinksRepositoryTest extends BaseIntegrationTest {
     @UsingDataSet(locations = "/dataset/links-empty.json")
     public void saveNewLinkTest() {
         String url = "http://test.com";
-        Link result = repository.saveLink(url);
+        String owner = "a-user";
+        Link result = repository.saveLink(owner, url);
 
         assertNotNull(result);
         assertThat(result.getId(), not(isEmptyString()));

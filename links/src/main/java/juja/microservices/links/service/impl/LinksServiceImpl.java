@@ -26,10 +26,10 @@ public class LinksServiceImpl implements LinksService {
         Link link;
 
         try {
-            link = linksRepository.getLinkByURL(request.getUrl());
+            link = linksRepository.getLinkByURL(request.getOwner(), request.getUrl());
             log.info("Link already exists {}. ", link.toString());
         } catch (NotFoundException ex) {
-            link = linksRepository.saveLink(request.getUrl());
+            link = linksRepository.saveLink(request.getOwner(), request.getUrl());
         }
 
         return link;
