@@ -1,6 +1,7 @@
 package juja.microservices.links.slackbot.util;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,6 +12,7 @@ import java.util.regex.Pattern;
  * @author Ben Novikov
  */
 @Slf4j
+@Service
 public class SlackTextHandler {
     /**
      * URL detection is performed by Slack server, returning links surrounded with angle brackets, then
