@@ -22,7 +22,7 @@ public class Link {
     @ApiModelProperty(value = "URL of saved link", required = true)
     private String url;
 
-    @ApiModelProperty(value = "Flag that means link is hidden or active")
+    @ApiModelProperty(value = "Flag that means link is hidden or not")
     private boolean hidden;
 
     public Link(String url) {

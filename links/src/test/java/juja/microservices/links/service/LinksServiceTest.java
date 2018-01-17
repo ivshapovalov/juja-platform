@@ -79,14 +79,14 @@ public class LinksServiceTest {
         List<Link> expected = Arrays.asList(
                 new Link("www.test1.com"),
                 new Link("www.test2.net"));
-        when(linksRepository.getAllLinks()).thenReturn(expected);
+        when(linksRepository.getAllNotHiddenLinks()).thenReturn(expected);
 
         //when
         List<Link> actual = linksService.getAllLinks();
 
         //then
         assertEquals(expected, actual);
-        verify(linksRepository).getAllLinks();
+        verify(linksRepository).getAllNotHiddenLinks();
         verifyNoMoreInteractions(linksRepository);
     }
 }

@@ -65,7 +65,7 @@ public class LinksRepositoryTest {
                 new Link("2", "www.test2.net", false));
 
         //when
-        List<Link> actual = linksRepository.getAllLinks();
+        List<Link> actual = linksRepository.getAllNotHiddenLinks();
 
         //then
         assertThat(actual, IsIterableContainingInAnyOrder.containsInAnyOrder(expected.toArray()));
@@ -81,7 +81,7 @@ public class LinksRepositoryTest {
         mongoTemplate.insert(originalData, "links");
 
         //when
-        List<Link> actual = linksRepository.getAllLinks();
+        List<Link> actual = linksRepository.getAllNotHiddenLinks();
 
         //then
         assertTrue(actual.equals(new ArrayList<>()));
@@ -90,7 +90,7 @@ public class LinksRepositoryTest {
     @Test
     public void getAllLinksWhenDbIsEmptyReturnsEmptyList() {
         //when
-        List<Link> actual = linksRepository.getAllLinks();
+        List<Link> actual = linksRepository.getAllNotHiddenLinks();
 
         //then
         assertTrue(actual.equals(new ArrayList<>()));

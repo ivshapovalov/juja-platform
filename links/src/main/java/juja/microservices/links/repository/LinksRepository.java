@@ -10,7 +10,7 @@ import java.util.List;
 public interface LinksRepository {
     Link saveLink(String url);
 
-    List<Link> getAllLinks();
+    List<Link> getAllNotHiddenLinks();
 
     Link getLinkByURL(String url);
 }

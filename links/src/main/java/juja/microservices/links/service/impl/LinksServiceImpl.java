@@ -37,6 +37,6 @@ public class LinksServiceImpl implements LinksService {
 
     @Override
     public List<Link> getAllLinks() {
-        return linksRepository.getAllLinks();
+        return linksRepository.getAllNotHiddenLinks();
     }
 }

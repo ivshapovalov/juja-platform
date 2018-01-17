@@ -50,7 +50,7 @@ public class LinksRepositoryImpl implements LinksRepository {
     }
 
     @Override
-    public List<Link> getAllLinks() {
+    public List<Link> getAllNotHiddenLinks() {
         Query query = new Query();
         query.addCriteria(Criteria.where("hidden").is(false));
         List<Link> result = mongoTemplate.find(query, Link.class, mongoCollectionName);
