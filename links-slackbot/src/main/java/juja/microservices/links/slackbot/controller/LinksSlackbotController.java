@@ -8,7 +8,6 @@ import io.swagger.annotations.ApiResponses;
 import juja.microservices.links.slackbot.exceptions.ExceptionsHandler;
 import juja.microservices.links.slackbot.model.links.Link;
 import juja.microservices.links.slackbot.service.LinksSlackbotService;
-import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import me.ramswaroop.jbot.core.slack.models.RichMessage;
 import org.springframework.beans.factory.annotation.Value;
@@ -33,7 +32,6 @@ import java.util.stream.Collectors;
 @Slf4j
 @Api(tags = "Links Slackbot", description = "The Links Slackbot API")
 @RequestMapping(value = "/v1/commands/links")
-@AllArgsConstructor
 public class LinksSlackbotController {
 
     private final RestTemplate restTemplate;
@@ -52,6 +50,13 @@ public class LinksSlackbotController {
     private String messageHideLinkInstant;
     @Value("${message.hide.link.delayed}")
     private String messageHideLinkDelayed;
+
+    public LinksSlackbotController(RestTemplate restTemplate, LinksSlackbotService linksSlackbotService,
+                                   ExceptionsHandler exceptionsHandler) {
+        this.restTemplate = restTemplate;
+        this.linksSlackbotService = linksSlackbotService;
+        this.exceptionsHandler = exceptionsHandler;
+    }
 
     @ApiOperation(
             value = "Save new link in links storage",

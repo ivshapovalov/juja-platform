@@ -159,7 +159,7 @@ public class LinksSlackbotServiceTest {
             soft.assertThat(captorHideLinkRequest.getValue().getId())
                     .as("'captorHideLinkRequest' text not equals expected text")
                     .isEqualTo(text);
-            soft.assertThat(captorHideLinkRequest.getValue().getUuid())
+            soft.assertThat(captorHideLinkRequest.getValue().getOwner())
                     .as("'captorHideLinkRequest' owner not equals expected owner")
                     .isEqualTo(owner);
         });
