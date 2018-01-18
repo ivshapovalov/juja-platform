@@ -3,11 +3,10 @@ package juja.microservices.links.controller;
 import juja.microservices.links.model.Link;
 import juja.microservices.links.model.SaveLinkRequest;
 import juja.microservices.links.service.LinksService;
-import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,12 +19,15 @@ import java.util.List;
  */
 @Slf4j
 @RestController
-@AllArgsConstructor
 @RequestMapping(value = "/v1/links")
 public class LinksController {
     private final LinksService linksService;
 
-    @PutMapping(consumes = "application/json;charset=UTF-8", produces = "application/json;charset=UTF-8")
+    public LinksController(LinksService linksService) {
+        this.linksService = linksService;
+    }
+
+    @PostMapping(consumes = "application/json;charset=UTF-8", produces = "application/json;charset=UTF-8")
     public ResponseEntity<Link> saveLink(@Valid @RequestBody SaveLinkRequest request) throws Exception {
         log.info("Received save Link request: '{}'", request);
         Link link = linksService.saveLink(request);
