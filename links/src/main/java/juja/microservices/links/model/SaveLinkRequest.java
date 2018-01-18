@@ -9,17 +9,21 @@ import lombok.Getter;
 import lombok.ToString;
 import org.hibernate.validator.constraints.NotEmpty;
 
+@ApiModel
 @Getter
 @EqualsAndHashCode
 @ToString
-@ApiModel
 public class SaveLinkRequest {
     @NotEmpty
-    @ApiModelProperty(value = "URL of saved link", required = true)
+    @ApiModelProperty(value = "URL of the link to be saved", required = true)
     private String url;
+    @NotEmpty
+    @ApiModelProperty(value = "Person who saves the link", required = true)
+    private String owner;
 
     @JsonCreator
-    public SaveLinkRequest(@JsonProperty("url") String url) {
+    public SaveLinkRequest(@JsonProperty("owner") String owner, @JsonProperty("url") String url) {
+        this.owner = owner;
         this.url = url;
     }
 }

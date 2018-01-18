@@ -1,4 +1,4 @@
-package juja.microservices.links.slackbot.model;
+package juja.microservices.links.slackbot.model.links;
 
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -11,6 +11,8 @@ import lombok.Getter;
 @Getter
 @EqualsAndHashCode
 public class Link {
+
+    private final String owner;
 
     private final String id;
 

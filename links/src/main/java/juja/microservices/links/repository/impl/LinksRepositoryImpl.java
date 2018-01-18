@@ -33,18 +33,22 @@ public class LinksRepositoryImpl implements LinksRepository {
     }
 
     @Override
-    public Link saveLink(String url) {
-        Link link = new Link(url);
+    public Link saveLink(String url, String owner) {
+        Link link = new Link(owner, url);
+
         mongoTemplate.save(link, mongoCollectionName);
         log.info("Successfully saved link {}.", link);
+
         return link;
     }
 
     @Override
-    public Link getLinkByURL(String url) throws NotFoundException {
-        Link link = mongoTemplate.findOne(query(where("url").is(url)), Link.class, mongoCollectionName);
+    public Link getLinkByURL(String owner, String url) throws NotFoundException {
+        Link link = mongoTemplate.findOne(query(where("owner").is(owner).and("url").is(url)),
+                Link.class, mongoCollectionName);
         if (link == null) {
-            throw new NotFoundException(String.format("Not found link with url: [%s].", url));
+            throw new NotFoundException(String.format("Not found link with url: [%s] which belongs to [%s].",
+                    url, owner));
         }
         return link;
     }

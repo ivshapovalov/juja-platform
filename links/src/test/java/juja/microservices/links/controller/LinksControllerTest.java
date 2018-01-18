@@ -23,6 +23,7 @@ import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -55,14 +56,16 @@ public class LinksControllerTest {
     public void saveLink() throws Exception {
         //given
         String url = "http://test.com";
-        Link link = new Link(url);
-        SaveLinkRequest request = new SaveLinkRequest(url);
+        String id = "5a30508811d3b338a0b3f85c";
+        String owner = "owner";
+        Link link = new Link(id, owner, url);
+        SaveLinkRequest request = new SaveLinkRequest(owner, url);
         String expected = asJsonString(link);
 
         when(linksService.saveLink(request)).thenReturn(link);
 
         //when
-        String actual = mockMvc.perform(put(LINKS_URL)
+        String actual = mockMvc.perform(post(LINKS_URL)
                 .content(asJsonString(request))
                 .contentType(APPLICATION_JSON_UTF8))
                 .andExpect(status().isOk())
