@@ -56,14 +56,14 @@ public class LinksRepositoryTest {
         //given
         String owner = "owner";
         List<Link> originalData = Arrays.asList(
-                Link.builder().owner(owner).url("www.test1.com").id("1").hidden(false).build(),
-                Link.builder().owner(owner).url("www.test3.com").id("3").hidden(true).build(),
-                Link.builder().owner(owner).url("www.test2.net").id("2").hidden(false).build());
+                new Link("1", owner, "www.test1.com", false),
+                new Link("2", owner, "www.test3.com", true),
+                new Link("3", owner, "www.test2.net", false));
         mongoTemplate.insert(originalData, "links");
 
         List<Link> expected = Arrays.asList(
-                Link.builder().owner(owner).url("www.test1.com").id("1").hidden(false).build(),
-                Link.builder().owner(owner).url("www.test2.net").id("2").hidden(false).build());
+                new Link("1", owner, "www.test1.com", false),
+                new Link("3", owner, "www.test2.net", false));
 
         //when
         List<Link> actual = linksRepository.getAllNotHiddenLinks();
@@ -77,9 +77,9 @@ public class LinksRepositoryTest {
         //given
         String owner = "owner";
         List<Link> originalData = Arrays.asList(
-                Link.builder().owner(owner).url("www.test1.com").id("1").hidden(true).build(),
-                Link.builder().owner(owner).url("www.test3.com").id("3").hidden(true).build(),
-                Link.builder().owner(owner).url("www.test2.net").id("2").hidden(true).build());
+                new Link("1", owner, "www.test1.com", true),
+                new Link("2", owner, "www.test3.com", true),
+                new Link("3", owner, "www.test2.net", true));
         mongoTemplate.insert(originalData, "links");
 
         //when
@@ -119,9 +119,9 @@ public class LinksRepositoryTest {
         String url = "www.test4.com";
         String owner = "owner";
         List<Link> originalData = Arrays.asList(
-                Link.builder().owner(owner).url("www.test1.com").id("1").hidden(false).build(),
-                Link.builder().owner(owner).url("www.test3.com").id("3").hidden(false).build(),
-                Link.builder().owner(owner).url("www.test2.net").id("2").hidden(false).build());
+                new Link("1", owner, "www.test1.com", false),
+                new Link("2", owner, "www.test3.com", false),
+                new Link("3", owner, "www.test2.net", false));
         mongoTemplate.insert(originalData, "links");
 
         expectedException.expect(NotFoundException.class);
@@ -138,9 +138,9 @@ public class LinksRepositoryTest {
         String url = "www.test1.com";
         String owner = "www.test1.com";
         List<Link> originalData = Arrays.asList(
-                Link.builder().owner(owner).url("www.test1.com").id("1").hidden(false).build(),
-                Link.builder().owner(owner).url("www.test3.com").id("3").hidden(false).build(),
-                Link.builder().owner(owner).url("www.test2.net").id("2").hidden(false).build());
+                new Link("1", owner, "www.test1.com", false),
+                new Link("2", owner, "www.test3.com", false),
+                new Link("3", owner, "www.test2.net", false));
         mongoTemplate.insert(originalData, "links");
 
         //when

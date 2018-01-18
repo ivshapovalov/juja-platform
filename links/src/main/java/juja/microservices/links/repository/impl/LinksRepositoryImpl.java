@@ -34,7 +34,7 @@ public class LinksRepositoryImpl implements LinksRepository {
 
     @Override
     public Link saveLink(String owner, String url) {
-        Link link = Link.builder().owner(owner).url(url).build();
+        Link link = new Link(owner, url);
 
         mongoTemplate.save(link, mongoCollectionName);
         log.info("Successfully saved link {}.", link);

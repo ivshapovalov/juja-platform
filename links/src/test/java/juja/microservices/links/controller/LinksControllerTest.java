@@ -57,8 +57,8 @@ public class LinksControllerTest {
         String url = "http://test.com";
         String id = "5a30508811d3b338a0b3f85c";
         String owner = "owner";
-        Link link = Link.builder().owner(owner).url(url).id(id).build();
-        SaveLinkRequest request = SaveLinkRequest.builder().owner(owner).url(url).build();
+        Link link = new Link(id, owner, url, false);
+        SaveLinkRequest request = new SaveLinkRequest(owner, url);
         String expected = asJsonString(link);
 
         when(linksService.saveLink(request)).thenReturn(link);
@@ -80,8 +80,8 @@ public class LinksControllerTest {
         //given
         String owner = "owner";
         List<Link> expected = Arrays.asList(
-                Link.builder().owner(owner).url("www.test1.com").build(),
-                Link.builder().owner(owner).url("www.test2.net").build());
+                new Link(owner, "www.test1.com"),
+                new Link(owner, "www.test2.net"));
         when(linksService.getAllLinks()).thenReturn(expected);
 
         //when

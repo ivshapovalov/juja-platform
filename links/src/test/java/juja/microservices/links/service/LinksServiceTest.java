@@ -46,8 +46,8 @@ public class LinksServiceTest {
         String url = "http://test.com";
         String id = "5a30508811d3b338a0b3f85c";
         String owner = "a-user";
-        Link expected = Link.builder().owner(owner).id(id).url(url).build();
-        SaveLinkRequest request = SaveLinkRequest.builder().owner(owner).url(url).build();
+        Link expected = new Link(id, owner, url, false);
+        SaveLinkRequest request = new SaveLinkRequest(owner, url);
 
         when(linksRepository.getLinkByURL(owner, url)).thenThrow(new NotFoundException(""));
         when(linksRepository.saveLink(owner, url)).thenReturn(expected);
@@ -65,8 +65,8 @@ public class LinksServiceTest {
         String url = "http://test.com";
         String id = "5a30508811d3b338a0b3f85c";
         String owner = "a-user";
-        Link expected = Link.builder().owner(owner).id(id).url(url).build();
-        SaveLinkRequest request = SaveLinkRequest.builder().owner(owner).url(url).build();
+        Link expected = new Link(id, owner, url, false);
+        SaveLinkRequest request = new SaveLinkRequest(owner, url);
 
         when(linksRepository.getLinkByURL(owner, url)).thenReturn(expected);
 
@@ -82,8 +82,8 @@ public class LinksServiceTest {
         //given
         String owner = "owner";
         List<Link> expected = Arrays.asList(
-                Link.builder().owner(owner).url("www.test1.com").build(),
-                Link.builder().owner(owner).url("www.test2.net").build());
+                new Link(owner, "www.test1.com"),
+                new Link(owner, "www.test2.net"));
         when(linksRepository.getAllNotHiddenLinks()).thenReturn(expected);
 
         //when
