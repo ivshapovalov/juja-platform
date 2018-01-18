@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
@@ -22,6 +23,7 @@ public class SaveLinkRequest {
     private String owner;
 
     @JsonCreator
+    @Builder
     public SaveLinkRequest(@JsonProperty("owner") String owner, @JsonProperty("url") String url) {
         this.owner = owner;
         this.url = url;

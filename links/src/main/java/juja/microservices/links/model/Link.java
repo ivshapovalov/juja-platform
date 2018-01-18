@@ -2,12 +2,9 @@ package juja.microservices.links.model;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.data.annotation.Id;
@@ -15,11 +12,12 @@ import org.springframework.data.annotation.Id;
 /**
  * @author Ivan Shapovalov
  */
-@Data
+
 @ApiModel
-@AllArgsConstructor
-@EqualsAndHashCode
 @ToString
+@Getter
+@Builder
+@EqualsAndHashCode
 public class Link {
     @Id
     @ApiModelProperty(value = "Unique ID of the link", required = true)
@@ -33,9 +31,4 @@ public class Link {
 
     @ApiModelProperty(value = "Flag that means link is hidden or not")
     private boolean hidden;
-
-    public Link(String url, String owner) {
-        this.url = url;
-        this.owner = owner;
-    }
 }
