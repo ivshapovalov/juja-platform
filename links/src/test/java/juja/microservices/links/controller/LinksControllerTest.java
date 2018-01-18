@@ -24,7 +24,6 @@ import static org.mockito.Mockito.when;
 import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -58,8 +57,8 @@ public class LinksControllerTest {
         String url = "http://test.com";
         String id = "5a30508811d3b338a0b3f85c";
         String owner = "owner";
-        Link link = new Link(id, owner, url);
-        SaveLinkRequest request = new SaveLinkRequest(owner, url);
+        Link link = Link.builder().owner(owner).url(url).id(id).build();
+        SaveLinkRequest request = SaveLinkRequest.builder().owner(owner).url(url).build();
         String expected = asJsonString(link);
 
         when(linksService.saveLink(request)).thenReturn(link);
@@ -79,9 +78,10 @@ public class LinksControllerTest {
     @Test
     public void getAllLinks() throws Exception {
         //given
+        String owner = "owner";
         List<Link> expected = Arrays.asList(
-                new Link("www.test1.com"),
-                new Link("www.test2.net"));
+                Link.builder().owner(owner).url("www.test1.com").build(),
+                Link.builder().owner(owner).url("www.test2.net").build());
         when(linksService.getAllLinks()).thenReturn(expected);
 
         //when

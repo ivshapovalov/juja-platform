@@ -54,15 +54,16 @@ public class LinksRepositoryTest {
     @Test
     public void getAllLinksWhenOneLinkIsHiddenExecutedCorrectly() {
         //given
+        String owner = "owner";
         List<Link> originalData = Arrays.asList(
-                new Link("1", "www.test1.com", false),
-                new Link("3", "www.test3.com", true),
-                new Link("2", "www.test2.net", false));
+                Link.builder().owner(owner).url("www.test1.com").id("1").hidden(false).build(),
+                Link.builder().owner(owner).url("www.test3.com").id("3").hidden(true).build(),
+                Link.builder().owner(owner).url("www.test2.net").id("2").hidden(false).build());
         mongoTemplate.insert(originalData, "links");
 
         List<Link> expected = Arrays.asList(
-                new Link("1", "www.test1.com", false),
-                new Link("2", "www.test2.net", false));
+                Link.builder().owner(owner).url("www.test1.com").id("1").hidden(false).build(),
+                Link.builder().owner(owner).url("www.test2.net").id("2").hidden(false).build());
 
         //when
         List<Link> actual = linksRepository.getAllNotHiddenLinks();
@@ -74,10 +75,11 @@ public class LinksRepositoryTest {
     @Test
     public void getAllLinksWhenAllLinksIsHiddenReturnsEmptyList() {
         //given
+        String owner = "owner";
         List<Link> originalData = Arrays.asList(
-                new Link("1", "www.test1.com", true),
-                new Link("3", "www.test3.com", true),
-                new Link("2", "www.test2.net", true));
+                Link.builder().owner(owner).url("www.test1.com").id("1").hidden(true).build(),
+                Link.builder().owner(owner).url("www.test3.com").id("3").hidden(true).build(),
+                Link.builder().owner(owner).url("www.test2.net").id("2").hidden(true).build());
         mongoTemplate.insert(originalData, "links");
 
         //when
@@ -100,9 +102,10 @@ public class LinksRepositoryTest {
     public void saveLinkExecutedCorrectly() {
         //given
         String url = "http://test.com";
+        String owner = "owner";
 
         //when
-        Link actual = linksRepository.saveLink(url);
+        Link actual = linksRepository.saveLink(owner, url);
 
         //then
         assertNotNull(actual);
@@ -114,32 +117,34 @@ public class LinksRepositoryTest {
     public void getLinkByUrlWhenUrlNotExistsInDb() {
         //given
         String url = "www.test4.com";
+        String owner = "owner";
         List<Link> originalData = Arrays.asList(
-                new Link("1", "www.test1.com", false),
-                new Link("3", "www.test3.com", false),
-                new Link("2", "www.test2.net", false));
+                Link.builder().owner(owner).url("www.test1.com").id("1").hidden(false).build(),
+                Link.builder().owner(owner).url("www.test3.com").id("3").hidden(false).build(),
+                Link.builder().owner(owner).url("www.test2.net").id("2").hidden(false).build());
         mongoTemplate.insert(originalData, "links");
 
         expectedException.expect(NotFoundException.class);
-        expectedException.expectMessage(String.format("Not found link with url: [%s].", url));
+        expectedException.expectMessage(
+                String.format("Not found link with url: [%s] which belongs to [%s].", url, owner));
 
         //when
-        linksRepository.getLinkByURL(url);
-
+        linksRepository.getLinkByURL(owner, url);
     }
 
     @Test
     public void getLinkByUrlWhenUrlAlreadyExistsInDb() {
         //given
         String url = "www.test1.com";
+        String owner = "www.test1.com";
         List<Link> originalData = Arrays.asList(
-                new Link("1", "www.test1.com", false),
-                new Link("3", "www.test3.com", false),
-                new Link("2", "www.test2.net", false));
+                Link.builder().owner(owner).url("www.test1.com").id("1").hidden(false).build(),
+                Link.builder().owner(owner).url("www.test3.com").id("3").hidden(false).build(),
+                Link.builder().owner(owner).url("www.test2.net").id("2").hidden(false).build());
         mongoTemplate.insert(originalData, "links");
 
         //when
-        Link actual = linksRepository.getLinkByURL(url);
+        Link actual = linksRepository.getLinkByURL(owner, url);
 
         //then
         assertNotNull(actual);
